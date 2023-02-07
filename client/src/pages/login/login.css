@@ -1,0 +1,8 @@
+.loginButton {
+  margin-top: 4px;
+  margin-bottom: 0px;
+  display: flex;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
