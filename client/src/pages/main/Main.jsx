@@ -1,11 +1,8 @@
 import React from "react";
-import Profile from "../profile/Profile";
-import {Container, Row, Col} from "react-bootstrap";
-import Table from "react-bootstrap/Table";
+import {Container} from "react-bootstrap";
 import "./main.css";
 import {Outlet} from "react-router-dom";
-import NavbarComponent from "../../components/NavbarComponent";
-import HomeComponent from "../home/HomeComponent";
+import NavbarComponent from "../../components/navbar/NavbarComponent";
 
 function Main() {
   return (

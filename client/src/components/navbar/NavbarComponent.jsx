@@ -1,10 +1,29 @@
-import {useState} from "react";
-import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import "./navbar.css";
-import LoginButton from "../pages/login/Login";
-import LogoutButton from "../pages/logout/Logout";
-import {Link, Router} from "react-router-dom";
+import LoginButton from "../../pages/login/Login";
+import LogoutButton from "../../pages/logout/Logout";
+import {Link} from "react-router-dom";
+import {useAuth0} from "@auth0/auth0-react";
+
 function NavbarComponent() {
+  const {user, isAuthenticated, isLoading} = useAuth0();
+
+  const renderLoginBtn = () => {
+    if (isAuthenticated) {
+      return (
+        <Nav.Link>
+          <LogoutButton />
+        </Nav.Link>
+      );
+    } else {
+      return (
+        <Nav.Link>
+          <LoginButton />
+        </Nav.Link>
+      );
+    }
+  };
+
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar" variant="dark">
       <Container className="px-5">
@@ -27,14 +46,7 @@ function NavbarComponent() {
               <p className="navText">Lifestyle</p>
             </Link>
           </Nav>
-          <Nav>
-            <Nav.Link>
-              <LoginButton />
-            </Nav.Link>
-            <Nav.Link>
-              <LogoutButton />
-            </Nav.Link>
-          </Nav>
+          <Nav>{renderLoginBtn()}</Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

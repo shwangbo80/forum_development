@@ -1,0 +1,8 @@
+.userInfoContainer {
+  background-color: white;
+  min-height: 100vh;
+}
+
+.signatureForm {
+  resize: none;
+}

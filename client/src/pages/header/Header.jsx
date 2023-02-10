@@ -1,16 +1,31 @@
 import React from "react";
-import {Container} from "react-bootstrap";
+import {Container, Button, Form, InputGroup, Row, Col} from "react-bootstrap";
 import "./header.css";
 
 function Header() {
   return (
-    <Container className="d-flex align-items-center justify-content-between pt-5 pb-2 px-5">
-      <div className="d-flex align-items-baseline">
-        <a href="/">
-          <h1 className="fw-bold  me-3 headerText">NamuWeb</h1>
-        </a>
-        <p className="text-dark">Forum for communities</p>
-      </div>
+    <Container className="px-5 py-3">
+      <Row>
+        <Col md={3}>
+          <a href="/">
+            <p className="me-4 headerText">NamuWeb</p>
+          </a>
+          <p className="descText">Forum for communities</p>
+        </Col>
+        <Col md={3}></Col>
+        <Col>
+          <InputGroup className="mb-3 searchForm">
+            <Form.Control
+              placeholder="Search topics"
+              aria-label="Search topics"
+              aria-describedby="basic-addon2"
+            />
+            <Button className="bg-light text-dark" id="button-addon2">
+              Search
+            </Button>
+          </InputGroup>
+        </Col>
+      </Row>
     </Container>
   );
 }

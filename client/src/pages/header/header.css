@@ -1,3 +1,16 @@
 .headerText {
-  color: #7f00ff;
+  color: black;
+  margin-bottom: 0px;
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.descText {
+  margin-bottom: 0px;
+  color: black;
+}
+
+.searchForm {
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
