@@ -9,6 +9,10 @@ import TechComponent from "./pages/tech/TechComponent";
 import LifestyleComponent from "./pages/lifestyle/LifestyleComponent";
 import HomeComponent from "./pages/home/HomeComponent";
 import UserForm from "./pages/userform/UserForm";
+import Login from "./pages/login/Login";
+import Admin from "./pages/admin/Admin";
+import CreatePost from "./pages/createPost/CreatePost";
+import PostComponent from "./pages/posts/PostComponent";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +43,23 @@ const router = createBrowserRouter([
         path: "forums/lifestyle",
         element: <LifestyleComponent />,
       },
+      {
+        path: "forums/post",
+        element: <PostComponent />,
+      },
+      {
+        path: "forums/createpost",
+        element: <CreatePost />,
+      },
+      {
+        path: "forums/admin",
+        element: <Admin />,
+      },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
   {
     path: "userform",

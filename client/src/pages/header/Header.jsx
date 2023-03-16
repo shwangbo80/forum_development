@@ -1,6 +1,15 @@
 import React from "react";
-import {Container, Button, Form, InputGroup, Row, Col} from "react-bootstrap";
+import {
+  Container,
+  Button,
+  Form,
+  InputGroup,
+  Row,
+  Col,
+  Navbar,
+} from "react-bootstrap";
 import "./header.css";
+import "../../components/navbar/NavbarComponent";
 
 function Header() {
   return (
@@ -10,7 +19,6 @@ function Header() {
           <a href="/">
             <p className="me-4 headerText">NamuWeb</p>
           </a>
-          <p className="descText">Forum for communities</p>
         </Col>
         <Col md={3}></Col>
         <Col>

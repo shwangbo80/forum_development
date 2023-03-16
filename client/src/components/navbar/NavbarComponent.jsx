@@ -6,19 +6,19 @@ import {Link} from "react-router-dom";
 import {useAuth0} from "@auth0/auth0-react";
 
 function NavbarComponent() {
-  const {user, isAuthenticated, isLoading} = useAuth0();
+  const {user, isAuthenticated} = useAuth0();
 
   const renderLoginBtn = () => {
-    if (isAuthenticated) {
-      return (
-        <Nav.Link>
-          <LogoutButton />
-        </Nav.Link>
-      );
-    } else {
+    if (!isAuthenticated || !user.email_verified) {
       return (
         <Nav.Link>
           <LoginButton />
+        </Nav.Link>
+      );
+    } else if (isAuthenticated) {
+      return (
+        <Nav.Link>
+          <LogoutButton />
         </Nav.Link>
       );
     }
@@ -46,6 +46,9 @@ function NavbarComponent() {
               <p className="navText">Lifestyle</p>
             </Link>
           </Nav>
+          <Link to={"forums/admin"}>
+            <p className="navText">Admin</p>
+          </Link>
           <Nav>{renderLoginBtn()}</Nav>
         </Navbar.Collapse>
       </Container>

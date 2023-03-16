@@ -2,8 +2,23 @@ import React from "react";
 import Profile from "../profile/Profile";
 import {Row, Col, Button} from "react-bootstrap";
 import "./home.css";
+import {useAuth0} from "@auth0/auth0-react";
 
 function HomeComponent() {
+  const {user, isAuthenticated} = useAuth0();
+
+  const emailVerification = () => {
+    try {
+      if (!user.email_verified) {
+        return <p>Please verify your email before login and posting.</p>;
+      } else {
+        return <div></div>;
+      }
+    } catch {
+      return;
+    }
+  };
+
   return (
     <Row>
       <Col md={9}>
@@ -32,12 +47,7 @@ function HomeComponent() {
             <br></br>
 
             <div className="d-flex justify-content-center">
-              <Button className="me-1" variant="outline-dark">
-                Login
-              </Button>
-              <Button className="ms-1" variant="outline-dark">
-                Logout
-              </Button>
+              {emailVerification()}
             </div>
           </div>
         </div>

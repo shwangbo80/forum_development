@@ -15,11 +15,17 @@ const Profile = () => {
         <p>Login to view your profile</p>
       </div>
     );
+  } else if (!user.email_verified) {
+    return (
+      <div className="profileContainer p-3">
+        <p>Please verify your email before login and posting.</p>
+      </div>
+    );
   } else {
     return (
       isAuthenticated && (
         <div className="profileContainer p-3">
-          <p>Welcome {user.name}</p>
+          <p>Welcome {user.username}</p>
         </div>
       )
     );

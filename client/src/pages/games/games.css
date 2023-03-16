@@ -1,7 +1,15 @@
 .topicHead {
-  width: 65%;
+  width: 60%;
 }
 
 .authorHead {
-  width: 15%;
+  width: 20%;
+}
+
+.commentsHead {
+  width: 10%;
+}
+
+.lastPostHead {
+  width: 10%;
 }
