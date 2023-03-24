@@ -2,3 +2,35 @@
   background-color: #ededed;
   min-height: 100vh;
 }
+
+.bg-violet {
+  background-color: lavender;
+}
+
+.table-responsive {
+  margin-bottom: -16px;
+}
+
+.numHead {
+  width: 5%;
+}
+
+.topicHead {
+  width: 55%;
+}
+
+.authorHead {
+  width: 15%;
+}
+
+.commentsHead {
+  width: 10%;
+}
+
+.lastPostHead {
+  width: 10%;
+}
+
+.editHead {
+  width: 5%;
+}

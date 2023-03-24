@@ -1,9 +1,11 @@
-import React from "react";
-import {Table, Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Table, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./games.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import EditButton from "../../components/EditButton";
 
-function GamesComponent() {
+const GamesComponent = () => {
   return (
     <>
       <div>
@@ -17,41 +19,31 @@ function GamesComponent() {
       <Table hover responsive>
         <thead className="bg-secondary text-light">
           <tr>
-            <th>No</th>
+            <th className="numHead">No</th>
             <th className="topicHead">Topic</th>
             <th className="authorHead">Created By</th>
-            <th className="commentsHead">Comments</th>
+            <th className="commentsHead text-center">Comments</th>
             <th className="lastPostHead">Last Post</th>
+            <th className="editHead">Edit</th>
           </tr>
         </thead>
-        <tbody>
+      </Table>
+      <Table>
+        <tbody className="tbodyContainer">
           <tr>
-            <td>3</td>
-            <td>
+            <td className="numHead">3</td>
+            <td className="topicHead">
               <Link to="../forums/post">The Elder Scrolls V: Skyrim</Link>
             </td>
-            <td>Otto</td>
-            <td>11</td>
-            <td>1/1/2023</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>23</td>
-            <td>1/1/2023</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>Larry the Bird</td>
-            <td>Mark</td>
-            <td>8</td>
-            <td>1/1/2023</td>
+            <td className="authorHead">Otto</td>
+            <td className="commentsHead text-center">11</td>
+            <td className="lastPostHead">1/1/2023</td>
+            <td className="editHead">{EditButton()}</td>
           </tr>
         </tbody>
       </Table>
     </>
   );
-}
+};
 
 export default GamesComponent;

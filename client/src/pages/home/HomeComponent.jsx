@@ -1,11 +1,11 @@
 import React from "react";
 import Profile from "../profile/Profile";
-import {Row, Col, Button} from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import "./home.css";
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function HomeComponent() {
-  const {user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   const emailVerification = () => {
     try {
