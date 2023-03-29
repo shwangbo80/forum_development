@@ -24,7 +24,6 @@ const GamesComponent = () => {
             <th className="authorHead">Created By</th>
             <th className="commentsHead text-center">Comments</th>
             <th className="lastPostHead">Last Post</th>
-            <th className="editHead">Edit</th>
           </tr>
         </thead>
       </Table>
@@ -38,7 +37,6 @@ const GamesComponent = () => {
             <td className="authorHead">Otto</td>
             <td className="commentsHead text-center">11</td>
             <td className="lastPostHead">1/1/2023</td>
-            <td className="editHead">{EditButton()}</td>
           </tr>
         </tbody>
       </Table>

@@ -16,7 +16,7 @@
 }
 
 .topicHead {
-  width: 55%;
+  width: 60%;
 }
 
 .authorHead {
@@ -29,8 +29,4 @@
 
 .lastPostHead {
   width: 10%;
-}
-
-.editHead {
-  width: 5%;
 }

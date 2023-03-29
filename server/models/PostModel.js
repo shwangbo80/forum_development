@@ -6,7 +6,7 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  postCategory: {
+  postCategoryId: {
     type: String,
     required: true,
   },
@@ -22,4 +22,4 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("PostInfo", PostSchema);
+module.exports = mongoose.model("Posts", PostSchema);

@@ -16,7 +16,12 @@ import Admin from "./pages/admin/Admin";
 import CreatePost from "./pages/createPost/CreatePost";
 import PostComponent from "./pages/posts/PostComponent";
 import CreateComment from "./pages/createComment/CreateComment";
-import CreateTopic from "./pages/createTopic/CreateTopic";
+import CreateCategory from "./pages/createCategory/CreateCategory";
+import EditComment from "./pages/editComment/EditComment";
+import EditPost from "./pages/editPost/EditPost";
+import EditCategory from "./pages/editCategory/EditCategory";
+import AdminCategories from "./pages/adminCategories/AdminCategories";
+import AdminUnderReview from "./pages/adminUnderReview/AdminUnderReview";
 
 const router = createBrowserRouter([
   {
@@ -52,8 +57,8 @@ const router = createBrowserRouter([
         element: <PostComponent />,
       },
       {
-        path: "forums/createTopic",
-        element: <CreateTopic />,
+        path: "forums/createcategory",
+        element: <CreateCategory />,
       },
       {
         path: "forums/createpost",
@@ -64,8 +69,30 @@ const router = createBrowserRouter([
         element: <CreateComment />,
       },
       {
-        path: "forums/admin",
+        path: "admin/editcategory/:id",
+        element: <EditCategory />,
+      },
+      {
+        path: "forums/editpost",
+        element: <EditPost />,
+      },
+      {
+        path: "forums/editComment",
+        element: <EditComment />,
+      },
+      {
+        path: "admin",
         element: <Admin />,
+        children: [
+          {
+            path: "",
+            element: <AdminCategories />,
+          },
+          {
+            path: "underreview",
+            element: <AdminUnderReview />,
+          },
+        ],
       },
     ],
   },

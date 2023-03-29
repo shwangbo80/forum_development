@@ -8,6 +8,8 @@ const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
 const categoryRoute = require("./routes/categoryRoute");
+const postRoute = require("./routes/postRoute");
+const commentRoute = require("./routes/commentRoute");
 
 const port = process.env.PORT || 8800;
 
@@ -27,6 +29,8 @@ app.use(helmet());
 app.use(morgan("common"));
 
 app.use("/api/category", categoryRoute);
+app.use("/api/post", postRoute);
+app.use("/api/comment", commentRoute);
 
 app.listen(port, () => {
   console.log("Backend server is running at " + port);

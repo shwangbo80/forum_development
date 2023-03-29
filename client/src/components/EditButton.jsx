@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
-const EditButton = () => {
+const EditButton = (props) => {
   const { user, isAuthenticated, isLoading } = useAuth0();
 
   if (isAuthenticated) {
@@ -33,7 +33,11 @@ const EditButton = () => {
               variant="primary"
               title=""
             >
-              <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
+              {/* <Link to="./forum/editpost"> */}
+              <Dropdown.Item eventKey="1" href={`../forums/${props.edit}`}>
+                Edit
+              </Dropdown.Item>
+              {/* </Link> */}
               <Dropdown.Item eventKey="2">Review</Dropdown.Item>
               <Dropdown.Item eventKey="3">Delete</Dropdown.Item>
             </DropdownButton>

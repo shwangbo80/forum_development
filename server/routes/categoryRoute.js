@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Category = require("../models/CategoryModel");
+const Post = require("../models/PostModel");
 
 // add new category
 router.post("/", async (req, res) => {
@@ -26,9 +27,21 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get all posts in category
+router.get("/posts", async (req, res) => {
+  const categoryPost = await Post.find({
+    postCategoryId: req.body.postCategoryId,
+  });
+  try {
+    res.status(200).json(categoryPost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // get one category
 router.get("/:id", async (req, res) => {
-  const category = await Category.findById(req.parmas.id);
+  const category = await Category.findById(req.params.id);
   try {
     res.status(200).json(category);
   } catch (err) {
@@ -42,11 +55,16 @@ router.put("/:id", async (req, res) => {
     categoryName: req.body.categoryName,
     categoryDescription: req.body.categoryDescription,
   });
-  try {
-    await category.save();
-    res.status(200).json(category);
-  } catch (err) {
-    res.status(500).json(err);
+
+  if (req.body.role != "admin") {
+    res.status(500).send("You are not authenticated");
+  } else {
+    try {
+      await category.save();
+      res.status(200).json(category);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
 });
 

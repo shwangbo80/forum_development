@@ -1,12 +1,12 @@
-import {Container, Nav, Navbar} from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import "./navbar.css";
 import LoginButton from "../../pages/login/Login";
 import LogoutButton from "../../pages/logout/Logout";
-import {Link} from "react-router-dom";
-import {useAuth0} from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function NavbarComponent() {
-  const {user, isAuthenticated} = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   const renderLoginBtn = () => {
     if (!isAuthenticated || !user.email_verified) {
@@ -46,7 +46,7 @@ function NavbarComponent() {
               <p className="navText">Lifestyle</p>
             </Link>
           </Nav>
-          <Link to={"forums/admin"}>
+          <Link to={"admin"}>
             <p className="navText">Admin</p>
           </Link>
           <Nav>{renderLoginBtn()}</Nav>

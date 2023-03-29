@@ -6,6 +6,10 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  postId: {
+    type: String,
+    required: true,
+  },
   comment: {
     type: String,
     required: true,
@@ -14,4 +18,4 @@ const CommentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("CommentInfo", CommentSchema);
+module.exports = mongoose.model("comment", CommentSchema);

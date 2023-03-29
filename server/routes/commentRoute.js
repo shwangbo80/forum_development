@@ -2,18 +2,72 @@ const router = require("express").Router();
 const Comment = require("../models/CommentModel");
 
 // create comment
-router.post("/", (req, res) => {});
+router.post("/", async (req, res) => {
+  const newComment = new Comment(req.body);
+  if (!req.body.userId) {
+    res.status(500).send("You must be registered user");
+  } else {
+    try {
+      const savedComment = await newComment.save();
+      res.status(200).json(savedComment);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+});
 
 // get all comments
-router.get("/", (req, res) => {});
+router.get("/", async (req, res) => {
+  const comment = await Comment.find();
+  try {
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // get one comment
-router.get("/:id", (req, res) => {});
+router.get("/:id", async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
+  try {
+    res.status(200).json(comment);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // edit comment
-router.put("/:id", (req, res) => {});
+router.put("/:id", async (req, res) => {
+  const comment = await Comment.findByIdAndUpdate(req.params.id, {
+    postId: req.body.postId,
+    comment: req.body.comment,
+  });
+
+  if (req.body.userId === comment.userId || req.body.role === "admin") {
+    try {
+      await comment.save();
+      res.status(200).json(post);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).send("You are not authenticated");
+  }
+});
 
 // delete comment
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", async (req, res) => {
+  const comment = await Comment.findById(req.params.id);
+  if (req.body.role === "admin") {
+    try {
+      await comment.deleteOne();
+      res.status(200).json(comment);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).json("Only the admin may delete this comment");
+  }
+});
 
 module.exports = router;
