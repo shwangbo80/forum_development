@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Category = require("../models/CategoryModel");
-const Post = require("../models/PostModel");
+const Topic = require("../models/TopicModel");
 
 // add new category
 router.post("/", async (req, res) => {
@@ -27,13 +27,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-//get all posts in category
-router.get("/posts", async (req, res) => {
-  const categoryPost = await Post.find({
-    postCategoryId: req.body.postCategoryId,
+//get all topics in category
+router.get("/:id/topics", async (req, res) => {
+  const categoryTopic = await Topic.find({
+    categoryId: req.params.id,
   });
   try {
-    res.status(200).json(categoryPost);
+    res.status(200).json(categoryTopic);
   } catch (err) {
     res.status(500).json(err);
   }

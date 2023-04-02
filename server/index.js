@@ -8,6 +8,7 @@ const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
 const categoryRoute = require("./routes/categoryRoute");
+const topicRoute = require("./routes/topicRoute");
 const postRoute = require("./routes/postRoute");
 const commentRoute = require("./routes/commentRoute");
 
@@ -29,6 +30,7 @@ app.use(helmet());
 app.use(morgan("common"));
 
 app.use("/api/category", categoryRoute);
+app.use("/api/topic", topicRoute);
 app.use("/api/post", postRoute);
 app.use("/api/comment", commentRoute);
 

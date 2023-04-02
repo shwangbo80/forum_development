@@ -1,25 +1,25 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const PostSchema = new mongoose.Schema({
+const TopicSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
   },
-  topicId: {
+  categoryId: {
     type: String,
     required: true,
   },
-  postName: {
+  topicName: {
     type: String,
     required: true,
     min: 5,
     max: 30,
   },
-  postBody: {
+  topicDescription: {
     type: String,
     required: true,
   },
 });
 
-module.exports = mongoose.model("Posts", PostSchema);
+module.exports = mongoose.model("Topics", TopicSchema);

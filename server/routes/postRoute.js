@@ -81,4 +81,18 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+//delete all comments in post
+router.delete("/:id/comments", async (req, res) => {
+  if (req.body.role === "admin") {
+    try {
+      await Comment.deleteMany({ postId: req.params.id });
+      res.status(200).json(topic);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).json("Only the admin may delete this post");
+  }
+});
+
 module.exports = router;
