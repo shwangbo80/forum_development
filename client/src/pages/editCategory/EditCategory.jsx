@@ -1,19 +1,20 @@
-import { React, useEffect, useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
-import { useParams, useResolvedPath, useNavigate } from "react-router-dom";
+import {React, useEffect, useState} from "react";
+import {Row, Col, Form, Button} from "react-bootstrap";
+import {useParams, useResolvedPath, useNavigate} from "react-router-dom";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 
 function EditCategory() {
   const [categoryName, setCategoryName] = useState([]);
   const [categoryDescription, setCategoryDescription] = useState([]);
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const {user, isAuthenticated, isLoading} = useAuth0();
   const [errMessage, setErrMessage] = useState("");
   const urlParam = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
     fetchCategory();
-  }, []);
+  });
 
   console.log(user.user_metadata.role);
 
@@ -66,7 +67,7 @@ function EditCategory() {
     if (deleteConfirm) {
       await axios.delete(
         `${process.env.REACT_APP_SERVER_URL}api/category/${urlParam.id}`,
-        { data: { role: user.user_metadata.role } }
+        {data: {role: user.user_metadata.role}}
       );
       const successMsg = alert("Category has been successfully deleted");
       if (!successMsg) {

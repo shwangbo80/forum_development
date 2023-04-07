@@ -1,6 +1,6 @@
 import React from "react";
-import { Col, Row, Button, Form } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
+import {Col, Row, Button, Form} from "react-bootstrap";
+import {Link, Outlet} from "react-router-dom";
 import "./admin.css";
 
 function Admin() {
@@ -10,7 +10,7 @@ function Admin() {
         <h2 className="mb-4">Admin Dashboard</h2>
         <div className="mb-4">
           <Link to={"../../forums/createCategory"}>
-            <Button className="btn-secondary">Create a topic</Button>
+            <Button className="btn-secondary">Create a category</Button>
           </Link>
         </div>
         <Row className="adminPanel">

@@ -1,18 +1,14 @@
-import { useState, useEffect } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {useState, useEffect} from "react";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import "./App.css";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import Main from "./pages/main/Main";
 import Header from "./pages/header/Header";
-import GamesComponent from "./pages/games/GamesComponent";
-import EntertainmentComponent from "./pages/entertainment/EntertainmentComponent";
-import SportsComponent from "./pages/sports/SportsComponent";
-import TechComponent from "./pages/tech/TechComponent";
-import LifestyleComponent from "./pages/lifestyle/LifestyleComponent";
 import HomeComponent from "./pages/home/HomeComponent";
 import UserForm from "./pages/userform/UserForm";
 import Login from "./pages/login/Login";
 import Admin from "./pages/admin/Admin";
+import TopicComponent from "./pages/topic/TopicComponent";
 import CreatePost from "./pages/createPost/CreatePost";
 import PostComponent from "./pages/posts/PostComponent";
 import CreateComment from "./pages/createComment/CreateComment";
@@ -22,6 +18,7 @@ import EditPost from "./pages/editPost/EditPost";
 import EditCategory from "./pages/editCategory/EditCategory";
 import AdminCategories from "./pages/adminCategories/AdminCategories";
 import AdminUnderReview from "./pages/adminUnderReview/AdminUnderReview";
+import CategoriesComponent from "./pages/categories/CategoriesComponent";
 
 const router = createBrowserRouter([
   {
@@ -33,27 +30,15 @@ const router = createBrowserRouter([
         element: <HomeComponent />,
       },
       {
-        path: "forums/games",
-        element: <GamesComponent />,
+        path: "forums/categories",
+        element: <CategoriesComponent />,
       },
       {
-        path: "forums/entertainment",
-        element: <EntertainmentComponent />,
+        path: "forums/topic/:name",
+        element: <TopicComponent />,
       },
       {
-        path: "forums/sports",
-        element: <SportsComponent />,
-      },
-      {
-        path: "forums/tech",
-        element: <TechComponent />,
-      },
-      {
-        path: "forums/lifestyle",
-        element: <LifestyleComponent />,
-      },
-      {
-        path: "forums/post",
+        path: "forums/post/:id",
         element: <PostComponent />,
       },
       {
@@ -107,7 +92,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const {user, isAuthenticated, isLoading} = useAuth0();
   const [loaded, isLoaded] = useState(isLoading);
 
   // useEffect(() => {

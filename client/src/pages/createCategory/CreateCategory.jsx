@@ -1,14 +1,14 @@
-import { React, useState } from "react";
-import { Row, Col, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import {React, useState} from "react";
+import {Row, Col, Form, Button} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 import "./createCategory.css";
 import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 
 function CreateCategory() {
   const [categoryName, setCategoryName] = useState([]);
   const [categoryDescription, setCategoryDescription] = useState([]);
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const {user, isAuthenticated, isLoading} = useAuth0();
   const [errMessage, setErrMessage] = useState("");
   const navigate = useNavigate();
 
@@ -50,14 +50,14 @@ function CreateCategory() {
   return (
     <>
       <div>
-        <h2 className="mb-5">Create Topic</h2>
+        <h2 className="mb-5">Create Category</h2>
         <Row>
           <Col md={10}>
             <div>
               <Form.Label>Topic</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Edit topic title here"
+                placeholder="Edit category title here"
                 value={categoryName}
                 onChange={handleNameChange}
               />
@@ -66,7 +66,7 @@ function CreateCategory() {
               <Form.Label>Topic Description</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Edit topic description here"
+                placeholder="Edit  description here"
                 value={categoryDescription}
                 onChange={handleDescriptionChange}
               />

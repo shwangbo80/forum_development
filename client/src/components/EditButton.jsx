@@ -1,9 +1,9 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import {useAuth0} from "@auth0/auth0-react";
+import {Dropdown, DropdownButton} from "react-bootstrap";
 
 const EditButton = (props) => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const {user, isAuthenticated, isLoading} = useAuth0();
 
   if (isAuthenticated) {
     if (isLoading) {
@@ -17,8 +17,8 @@ const EditButton = (props) => {
               id="dropdown-button-drop-down-centered"
               drop="right"
               variant="primary"
-              title=""
-            >
+              size="sm"
+              title="">
               <Dropdown.Item eventKey="1">Edit</Dropdown.Item>
             </DropdownButton>
           </div>
@@ -31,8 +31,8 @@ const EditButton = (props) => {
               id="dropdown-button-drop-down-centered"
               drop="right"
               variant="primary"
-              title=""
-            >
+              size="sm"
+              title="">
               {/* <Link to="./forum/editpost"> */}
               <Dropdown.Item eventKey="1" href={`../forums/${props.edit}`}>
                 Edit

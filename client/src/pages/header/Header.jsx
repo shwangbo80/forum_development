@@ -24,8 +24,8 @@ function Header() {
         <Col>
           <InputGroup className="mb-3 searchForm">
             <Form.Control
-              placeholder="Search topics"
-              aria-label="Search topics"
+              placeholder="Search posts"
+              aria-label="Search posts"
               aria-describedby="basic-addon2"
             />
             <Button className="bg-light text-dark" id="button-addon2">
