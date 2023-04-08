@@ -42,7 +42,7 @@ function CategoriesComponent() {
     setcategoryLoaded(true);
   };
 
-  console.log(categoriesData);
+  //   console.log(categoriesData);
 
   const fetchCategoryTopics = async () => {
     const categoryTopics = await axios.get(
@@ -61,15 +61,8 @@ function CategoriesComponent() {
       .sort(topicSort)
       .map((item) => {
         return (
-          <Col md={2} key={item._id}>
-            <Link
-              to={`../forums/topic/${item.topicName}`}
-              state={{
-                id: item._id,
-                categoryName: categoriesData[0].categoryName,
-              }}>
-              {item.topicName}
-            </Link>
+          <Col md={3} key={item._id}>
+            <Link to={`../forums/topic/${item._id}`}>{item.topicName}</Link>
           </Col>
         );
       });

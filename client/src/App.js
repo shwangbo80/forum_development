@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <CategoriesComponent />,
       },
       {
-        path: "forums/topic/:name",
+        path: "forums/topic/:id",
         element: <TopicComponent />,
       },
       {

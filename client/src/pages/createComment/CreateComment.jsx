@@ -9,17 +9,16 @@ function CreateComment({fetchComments, postId}) {
   const [commentBody, setCommentBody] = useState("");
 
   const handleSubmitComment = async (e) => {
-    e.preventDefault();
     try {
-      const newComment = await axios.post("http://localhost:8800/api/comment", {
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}api/comment`, {
         userId: user.username,
         postId: postId,
         comment: commentBody,
       });
-      console.log(newComment);
+      setCommentBody("");
       fetchComments();
-    } catch (error) {
-      console.log("There was an error " + error);
+    } catch (err) {
+      console.log("There was an error: " + err);
     }
   };
 
@@ -34,7 +33,13 @@ function CreateComment({fetchComments, postId}) {
                 as="textarea"
                 placeholder="Post comment here"
                 rows={5}
+                value={commentBody}
                 onChange={(e) => setCommentBody(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.keyCode === 13 && e.shiftKey === false) {
+                    handleSubmitComment();
+                  }
+                }}
               />
               <Form.Text muted>Please follow forum Terms of Service</Form.Text>
             </div>

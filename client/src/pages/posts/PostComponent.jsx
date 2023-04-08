@@ -11,28 +11,72 @@ import Moment from "react-moment";
 function PostComponent() {
   const {user, isAuthenticated, loginWithRedirect} = useAuth0();
   const urlParam = useParams();
-  const postId = urlParam.id;
-  const location = useLocation();
-  const postData = location.state.data;
-
+  console.log(urlParam);
+  const [postData, setPostData] = useState([]);
+  const [postLoaded, setPostLoaded] = useState(false);
   const [commentsLoaded, setcommentsLoaded] = useState(false);
   const [commentsData, setCommentsData] = useState([]);
 
-  console.log(user);
-
   useEffect(() => {
+    fetchPost();
     fetchComments();
   }, []);
 
+  const fetchPost = async () => {
+    const post = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`
+    );
+    setPostData(post.data);
+    setPostLoaded(true);
+  };
+
+  console.log(postData);
+
   const fetchComments = async () => {
     const comments = await axios.get(
-      `http://localhost:8800/api/post/${postId}/comments`
+      `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}/comments`
     );
     setCommentsData(comments.data);
     setcommentsLoaded(true);
   };
 
-  console.log(commentsData);
+  const RenderPost = () => {
+    if (!postLoaded) {
+      return;
+    }
+    return (
+      <>
+        <div>
+          <h2 className="mb-4">{postData.postName}</h2>
+        </div>
+        <Table responsive bordered className="tableContainer">
+          <thead className="bg-violet">
+            <tr>
+              <th>
+                <div className="d-flex justify-content-between">
+                  <div className="d-flex align-items-center">
+                    <div className="me-3">{postData.userId}</div>
+                    <div className="fw-light me-1">created/updated at:</div>
+                    <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
+                      {postData.createdAt}
+                    </Moment>
+                  </div>
+                  <div className="ms-5">
+                    <EditButton edit="editcomment" />
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="">{postData.postBody}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </>
+    );
+  };
 
   const RenderComments = () => {
     if (!commentsLoaded) return;
@@ -69,36 +113,12 @@ function PostComponent() {
 
   return (
     <>
-      <div>
-        <h2 className="mb-4">{postData.postName}</h2>
-      </div>
-      <Table responsive bordered className="tableContainer">
-        <thead className="bg-violet">
-          <tr>
-            <th>
-              <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center">
-                  <div className="me-3">{postData.userId}</div>
-                  <div className="fw-light me-1">created/updated at:</div>
-                  <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
-                    {postData.createdAt}
-                  </Moment>
-                </div>
-                <div className="ms-5">
-                  <EditButton edit="editcomment" />
-                </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td className="">{postData.postBody}</td>
-          </tr>
-        </tbody>
-      </Table>
+      <RenderPost />
       <RenderComments />
-      <hr className="my-5" />
+      <hr
+        className="my-5"
+        style={{border: "none", borderBottom: "2px solid #000"}}
+      />
       {!isAuthenticated ? (
         <p>
           Please{" "}
@@ -113,7 +133,7 @@ function PostComponent() {
           to make comments.
         </p>
       ) : (
-        <CreateComment fetchComments={fetchComments} postId={postId} />
+        <CreateComment fetchComments={fetchComments} postId={urlParam.id} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import {React, useEffect, useState, useRef} from "react";
 import {Row, Col, Table, Button} from "react-bootstrap";
 import axios from "axios";
 import {Link, useParams, useLocation} from "react-router-dom";
@@ -8,26 +8,52 @@ import {useAuth0} from "@auth0/auth0-react";
 function TopicComponent() {
   const [postsLoaded, setpostsLoaded] = useState(false);
   const [postsData, setPostsData] = useState([]);
+  const [topicLoaded, setTopicLoaded] = useState(false);
+  const [topicData, setTopicData] = useState([]);
   const {user, isAuthenticated, loginWithRedirect} = useAuth0();
 
-  const location = useLocation();
-  const {id} = location.state;
   const urlParam = useParams();
-  const categoryName = location.state.categoryName;
 
   useEffect(() => {
+    fetchTopic();
     fetchPosts();
   }, []);
 
-  const fetchPosts = async () => {
-    const posts = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}api/topic/${id}/posts`
-    );
-    setPostsData(posts.data);
-    setpostsLoaded(true);
+  const fetchTopic = async () => {
+    try {
+      const category = await axios.get(
+        `http://localhost:8800/api/topic/${urlParam.id}`
+      );
+      setTopicData(category.data);
+      setTopicLoaded(true);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  console.log(postsData);
+  const fetchPosts = async () => {
+    try {
+      const posts = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}api/topic/${urlParam.id}/posts`
+      );
+      setPostsData(posts.data);
+      setpostsLoaded(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const renderTopic = () => {
+    if (!topicLoaded) {
+      return;
+    }
+    return (
+      <>
+        <h2>{topicData.topicName}</h2>
+        <p>{topicData.topicDescription}</p>
+      </>
+    );
+  };
 
   const renderPosts = () => {
     if (!postsLoaded) {
@@ -50,8 +76,8 @@ function TopicComponent() {
               to make posts.
             </p>
           ) : (
-            <div className="mb-4">
-              <Link to="../forums/createpost">
+            <div className="mt-5 mb-4">
+              <Link to="../forums/createpost" state={{data: urlParam}}>
                 <Button>Make a post</Button>
               </Link>
             </div>
@@ -61,29 +87,42 @@ function TopicComponent() {
           <thead className="bg-secondary text-light">
             <tr>
               <th className="numHead">No</th>
-              <th className="topicHead">Topic</th>
+              <th className="topicHead">Title</th>
               <th className="authorHead">Created By</th>
               <th className="commentsHead">Comments</th>
               <th className="lastPostHead">Last Post</th>
             </tr>
           </thead>
-          <tbody className="tbodyContainer">
-            <tr>
-              <td className="">3</td>
-              <td className="">
-                <Link
-                  to={`../forums/post/${postsData[0]._id}`}
-                  state={{data: postsData[0]}}>
-                  {postsData[0].postName}
-                </Link>
-              </td>
-              <td className="">{postsData[0].userId}</td>
-              <td className="">{postsData.length - 1}</td>
-              <td className="">
-                <Moment format="MM/DD/YYYY">{postsData[0].updatedAt}</Moment>
-              </td>
-            </tr>
-          </tbody>
+          {postsData
+            .map((item, key) => {
+              return (
+                <tbody className="tbodyContainer" key={item._id}>
+                  <tr>
+                    <td className="fw-lighter">
+                      {postsData.indexOf(item) + 1}
+                    </td>
+                    <td className="">
+                      <Link
+                        to={`../forums/post/${item._id}`}
+                        //   state={{data: item}}
+                      >
+                        {item.postName}
+                      </Link>
+                    </td>
+                    <td className="fw-light">{item.userId}</td>
+                    <td className="">
+                      {/* must include length of comments */}
+                    </td>
+                    <td className="">
+                      {/* <Moment format="MM/DD/YYYY"> */}
+                      {/* must include date of most recent comment */}
+                      {/* </Moment> */}
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })
+            .reverse()}
         </Table>
       </>
     );
@@ -91,8 +130,7 @@ function TopicComponent() {
 
   return (
     <div>
-      <h2>{urlParam.name}</h2>
-      <p>{categoryName}</p>
+      {renderTopic()}
       {renderPosts()}
     </div>
   );
