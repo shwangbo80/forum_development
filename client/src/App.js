@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <CreateCategory />,
       },
       {
-        path: "forums/createpost",
+        path: "forums/createpost/:id",
         element: <CreatePost />,
       },
       {

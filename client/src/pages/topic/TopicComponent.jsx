@@ -77,7 +77,9 @@ function TopicComponent() {
             </p>
           ) : (
             <div className="mt-5 mb-4">
-              <Link to="../forums/createpost" state={{data: urlParam}}>
+              <Link
+                to={`../forums/createpost/${topicData._id}`}
+                state={{data: urlParam}}>
                 <Button>Make a post</Button>
               </Link>
             </div>

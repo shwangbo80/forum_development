@@ -1,19 +1,16 @@
 import {React, useState, useEffect} from "react";
 import {Row, Col, Form, Button} from "react-bootstrap";
-import {useLocation, redirect, useNavigate} from "react-router-dom";
+import {useLocation, redirect, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
 
 function CreatePost() {
   const {user} = useAuth0();
   const location = useLocation();
-  const {data} = location.state;
   let navigate = useNavigate();
-
-  console.log(data);
-
   const [postName, setPostName] = useState("");
   const [postBody, setPostBody] = useState("");
+  const urlParam = useParams();
 
   const handleSubmit = async (e) => {
     try {
@@ -21,13 +18,13 @@ function CreatePost() {
         `${process.env.REACT_APP_SERVER_URL}api/post`,
         {
           userId: user.username,
-          topicId: data.id,
+          topicId: urlParam.id,
           postName: postName,
           postBody: postBody,
         }
       );
       console.log(newPost);
-      return navigate(`../forums/topic/${data.id}`);
+      return navigate(`../forums/topic/${urlParam.id}`);
     } catch (err) {
       console.log("There was an error, " + err);
     }
@@ -70,7 +67,7 @@ function CreatePost() {
                 </Form.Text>
               </div>
               <div className="mt-5">
-                <Button type="submit">Submit</Button>
+                <Button onClick={handleSubmit}>Submit</Button>
               </div>
             </Form>
           </Col>
