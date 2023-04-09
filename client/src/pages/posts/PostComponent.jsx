@@ -119,7 +119,9 @@ function PostComponent() {
         className="my-5"
         style={{border: "none", borderBottom: "2px solid #000"}}
       />
-      {!isAuthenticated ? (
+      {!postLoaded ? (
+        <div></div>
+      ) : !isAuthenticated ? (
         <p>
           Please{" "}
           <span
@@ -133,7 +135,10 @@ function PostComponent() {
           to make comments.
         </p>
       ) : (
-        <CreateComment fetchComments={fetchComments} postId={urlParam.id} />
+        <CreateComment
+          fetchComments={fetchComments}
+          postId={postData.topicId}
+        />
       )}
     </>
   );

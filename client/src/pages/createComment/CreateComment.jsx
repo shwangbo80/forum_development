@@ -3,11 +3,13 @@ import {Row, Col, Form, Button} from "react-bootstrap";
 import "./createComment.css";
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
+import {useNavigate, useParams} from "react-router-dom";
 
 function CreateComment({fetchComments, postId}) {
   const {user} = useAuth0();
   const [commentBody, setCommentBody] = useState("");
-
+  const navigate = useNavigate();
+  const urlParam = useParams();
   const handleSubmitComment = async (e) => {
     try {
       await axios.post(`${process.env.REACT_APP_SERVER_URL}api/comment`, {
@@ -16,7 +18,8 @@ function CreateComment({fetchComments, postId}) {
         comment: commentBody,
       });
       setCommentBody("");
-      fetchComments();
+      navigate(`../forums/topic/${postId}`);
+      //   fetchComments();
     } catch (err) {
       console.log("There was an error: " + err);
     }
