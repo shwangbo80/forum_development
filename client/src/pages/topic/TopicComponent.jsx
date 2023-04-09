@@ -19,11 +19,9 @@ function TopicComponent() {
     fetchPosts();
   }, []);
 
-  console.log(postsData.length);
+  console.log(postsData);
 
   function Items({currentItems}) {
-    console.log(currentItems);
-
     return (
       <>
         <Table hover responsive>
@@ -41,7 +39,7 @@ function TopicComponent() {
               <tbody className="tbodyContainer" key={item._id}>
                 <tr>
                   <td className="fw-lighter">
-                    {postsData.indexOf(item) + 1}
+                    {item.postId}
                     {/* {key} */}
                     {/* need to add item number to backend */}
                   </td>
@@ -151,7 +149,31 @@ function TopicComponent() {
 
   const renderPosts = () => {
     if (postsData.length === 0) {
-      return <p>No posts yet</p>;
+      return (
+        <>
+          {!isAuthenticated ? (
+            <p className="mt-5">
+              Please{" "}
+              <span
+                className="text-primary fw-bold"
+                style={{cursor: "pointer"}}
+                onClick={() => {
+                  loginWithRedirect();
+                }}>
+                LOGIN
+              </span>{" "}
+              to make posts.
+            </p>
+          ) : (
+            <div className="mt-5 mb-4">
+              <Link to={`../forums/createpost/${topicData._id}`}>
+                <Button>Make a post</Button>
+              </Link>
+            </div>
+          )}
+          <p>No posts yet</p>
+        </>
+      );
     }
     if (!postsLoaded) {
       return;
@@ -160,7 +182,7 @@ function TopicComponent() {
       <>
         <div>
           {!isAuthenticated ? (
-            <p>
+            <p className="mt-5">
               Please{" "}
               <span
                 className="text-primary fw-bold"
@@ -168,7 +190,7 @@ function TopicComponent() {
                 onClick={() => {
                   loginWithRedirect();
                 }}>
-                login
+                LOGIN
               </span>{" "}
               to make posts.
             </p>

@@ -7,6 +7,10 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    postId: {
+      type: Number,
+      required: true,
+    },
     topicId: {
       type: String,
       required: true,

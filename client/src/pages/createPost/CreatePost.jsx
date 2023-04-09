@@ -10,13 +10,35 @@ function CreatePost() {
   const [postName, setPostName] = useState("");
   const [postBody, setPostBody] = useState("");
   const urlParam = useParams();
+  const [postsLoaded, setpostsLoaded] = useState(false);
+  const [postsData, setPostsData] = useState([]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const posts = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}api/topic/${urlParam.id}/posts`
+      );
+      setPostsData(posts.data);
+      setpostsLoaded(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleSubmit = async (e) => {
+    if (!postsLoaded) {
+      return;
+    }
     try {
       const newPost = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}api/post`,
         {
           userId: user.username,
+          postId: postsData.length + 1,
           topicId: urlParam.id,
           postName: postName,
           postBody: postBody,
