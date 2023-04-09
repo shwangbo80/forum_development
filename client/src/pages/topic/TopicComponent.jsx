@@ -42,10 +42,7 @@ function TopicComponent() {
                     {/* need to add item number to backend */}
                   </td>
                   <td className="">
-                    <Link
-                      to={`../forums/post/${item._id}`}
-                      //   state={{data: item}}
-                    >
+                    <Link to={`../forums/post/${item._id}`}>
                       {item.postName}
                     </Link>
                   </td>
@@ -74,7 +71,6 @@ function TopicComponent() {
     // (This could be items from props; or items loaded in a local state
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = postsData.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(postsData.length / itemsPerPage);
 

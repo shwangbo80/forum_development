@@ -11,7 +11,6 @@ import Moment from "react-moment";
 function PostComponent() {
   const {user, isAuthenticated, loginWithRedirect} = useAuth0();
   const urlParam = useParams();
-  console.log(urlParam);
   const [postData, setPostData] = useState([]);
   const [postLoaded, setPostLoaded] = useState(false);
   const [commentsLoaded, setcommentsLoaded] = useState(false);
@@ -29,8 +28,6 @@ function PostComponent() {
     setPostData(post.data);
     setPostLoaded(true);
   };
-
-  console.log(postData);
 
   const fetchComments = async () => {
     const comments = await axios.get(
@@ -82,7 +79,11 @@ function PostComponent() {
     if (!commentsLoaded) return;
     return commentsData.map((item) => {
       return (
-        <Table responsive bordered className="tableContainer" key={item._id}>
+        <Table
+          responsive
+          bordered
+          className="tableContainer mt-2"
+          key={item._id}>
           <thead className="bg-violet">
             <tr>
               <th>
