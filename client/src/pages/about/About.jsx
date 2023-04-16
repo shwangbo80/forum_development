@@ -1,30 +1,14 @@
 import React from "react";
-import Profile from "../profile/Profile";
-import {Row, Col, Button} from "react-bootstrap";
-import "./home.css";
-import {useAuth0} from "@auth0/auth0-react";
+import {Container, Row, Col} from "react-bootstrap";
 
-function HomeComponent() {
-  const {user, isAuthenticated} = useAuth0();
-
-  const emailVerification = () => {
-    try {
-      if (!user.email_verified) {
-        return <p>Please verify your email before login and posting.</p>;
-      } else {
-        return <div></div>;
-      }
-    } catch {
-      return;
-    }
-  };
-
+function About() {
   return (
     <Row>
-      <Col md={9}>
+      <Col></Col>
+      <Col md={8}>
         <div className="welcomeContainer p-5">
-          <h2 className="text-center">[Welcome to namuweb]</h2>
-          {/* <br></br>
+          <h2 className="text-center">[About namuweb]</h2>
+          <br></br>
           <div className="homeTextContainer">
             <p className="homeText">
               namuweb is an online community forum that engages converstations
@@ -45,18 +29,14 @@ function HomeComponent() {
               conversations.
             </p>
             <br></br>
-
-            <div className="d-flex justify-content-center">
-              {emailVerification()}
-            </div>
-          </div> */}
+            <p>Planned, Designed, and Developed by Soo Hwangbo</p>
+            <p>Tech Stack: React, MongoDB, Node Js</p>
+          </div>
         </div>
       </Col>
-      <Col>
-        <Profile />
-      </Col>
+      <Col></Col>
     </Row>
   );
 }
 
-export default HomeComponent;
+export default About;

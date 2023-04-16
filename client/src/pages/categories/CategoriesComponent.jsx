@@ -1,5 +1,5 @@
 import {React, useEffect, useState} from "react";
-import {Row, Col} from "react-bootstrap";
+import {Row, Col, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
@@ -70,7 +70,7 @@ function CategoriesComponent() {
 
   const renderCategories = () => {
     if (!categoryLoaded) {
-      return;
+      return <Spinner animation="border" variant="primary" />;
     }
     return (
       <div>

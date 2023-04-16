@@ -1,5 +1,5 @@
 import {React, useEffect, useState, useRef} from "react";
-import {Table, Button, Nav} from "react-bootstrap";
+import {Table, Button, Spinner} from "react-bootstrap";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
 import Moment from "react-moment";
@@ -128,12 +128,15 @@ function TopicComponent() {
 
   const renderTopic = () => {
     if (!topicLoaded) {
-      return;
+      return <Spinner animation="border" variant="primary" />;
     }
     return (
       <>
         <h2>{topicData.topicName}</h2>
         <p>{topicData.topicDescription}</p>
+        <Link to={`../forums/createpost/${topicData._id}`}>
+          <Button className="mb-3">Make a post</Button>
+        </Link>
       </>
     );
   };
@@ -156,18 +159,14 @@ function TopicComponent() {
               to make posts.
             </p>
           ) : (
-            <div className="mt-5 mb-4">
-              <Link to={`../forums/createpost/${topicData._id}`}>
-                <Button>Make a post</Button>
-              </Link>
-            </div>
+            <div></div>
           )}
           <p>No posts yet</p>
         </>
       );
     }
     if (!postsLoaded) {
-      return;
+      return <Spinner animation="border" variant="primary" />;
     }
     return (
       <>
@@ -186,11 +185,7 @@ function TopicComponent() {
               to make posts.
             </p>
           ) : (
-            <div className="mt-5 mb-4">
-              <Link to={`../forums/createpost/${topicData._id}`}>
-                <Button>Make a post</Button>
-              </Link>
-            </div>
+            <div></div>
           )}
         </div>
         <PaginatedItems itemsPerPage={20} />

@@ -24,6 +24,18 @@ function NavbarComponent() {
     }
   };
 
+  const renderAdminButtonm = () => {
+    if (!user) {
+      return;
+    }
+    if (user.user_metadata.role === "admin") {
+      return (
+        <Link to={"admin"}>
+          <p className="navText">Admin</p>
+        </Link>
+      );
+    }
+  };
   return (
     <Navbar collapseOnSelect expand="lg" className="navbar" variant="dark">
       <Container className="px-5">
@@ -33,11 +45,12 @@ function NavbarComponent() {
             <Link to={"forums/categories"}>
               <p className="navText">Categories</p>
             </Link>
+            <Link to={"about"}>
+              <p className="navText">About</p>
+            </Link>
           </Nav>
-          <Link to={"admin"}>
-            <p className="navText">Admin</p>
-          </Link>
-          <Nav>{renderLoginBtn()}</Nav>
+          {renderAdminButtonm()}
+          {renderLoginBtn()}
         </Navbar.Collapse>
       </Container>
     </Navbar>

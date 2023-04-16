@@ -1,24 +1,31 @@
-import {React, useState} from "react";
+import {React, useEffect, useState} from "react";
 import {Row, Col, Form, Button} from "react-bootstrap";
 import "./createComment.css";
 import axios from "axios";
 import {useAuth0} from "@auth0/auth0-react";
 import {useNavigate, useParams} from "react-router-dom";
 
-function CreateComment({fetchComments, postId}) {
+function CreateComment({fetchComments, postId, topicId}) {
   const {user} = useAuth0();
   const [commentBody, setCommentBody] = useState("");
   const navigate = useNavigate();
-  const urlParam = useParams();
+  const [submitEnabled, setSubmitDisabled] = useState(false);
+  const [postCommentErrMessage, setPostCommentErrMessage] = useState("");
+
   const handleSubmitComment = async (e) => {
+    if (commentBody.length <= 0) {
+      setPostCommentErrMessage("Please write a comment before posting");
+      return;
+    } else setPostCommentErrMessage("");
     try {
+      setSubmitDisabled(true);
+      setCommentBody("");
       await axios.post(`${process.env.REACT_APP_SERVER_URL}api/comment`, {
         userId: user.username,
         postId: postId,
         comment: commentBody,
       });
-      setCommentBody("");
-      navigate(`../forums/topic/${postId}`);
+      navigate(`../forums/topic/${topicId}`);
       //   fetchComments();
     } catch (err) {
       console.log("There was an error: " + err);
@@ -38,16 +45,15 @@ function CreateComment({fetchComments, postId}) {
                 rows={5}
                 value={commentBody}
                 onChange={(e) => setCommentBody(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.keyCode === 13 && e.shiftKey === false) {
-                    handleSubmitComment();
-                  }
-                }}
+                style={{resize: "none"}}
               />
+              <p className="text-danger">{postCommentErrMessage}</p>
               <Form.Text muted>Please follow forum Terms of Service</Form.Text>
             </div>
             <div className="mt-5">
-              <Button onClick={handleSubmitComment}>Submit</Button>
+              <Button onClick={handleSubmitComment} disabled={submitEnabled}>
+                Submit
+              </Button>
             </div>
           </Col>
         </Row>

@@ -19,6 +19,7 @@ import EditCategory from "./pages/editCategory/EditCategory";
 import AdminCategories from "./pages/adminCategories/AdminCategories";
 import AdminUnderReview from "./pages/adminUnderReview/AdminUnderReview";
 import CategoriesComponent from "./pages/categories/CategoriesComponent";
+import About from "./pages/about/About";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomeComponent />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       {
         path: "forums/categories",
@@ -92,8 +97,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const {user, isAuthenticated, isLoading} = useAuth0();
-  const [loaded, isLoaded] = useState(isLoading);
+  //   const {user, isAuthenticated, isLoading} = useAuth0();
+  //   const [loaded, isLoaded] = useState(isLoading);
 
   // useEffect(() => {
   //   if (!isAuthenticated) {

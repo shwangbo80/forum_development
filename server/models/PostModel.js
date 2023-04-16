@@ -18,8 +18,8 @@ const PostSchema = new mongoose.Schema(
     postName: {
       type: String,
       required: true,
-      min: 5,
-      max: 30,
+      minLength: 5,
+      maxLength: 30,
     },
     postBody: {
       type: String,

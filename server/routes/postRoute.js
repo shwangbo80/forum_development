@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
 
 //get all comments in post
 router.get("/:id/comments", async (req, res) => {
-  const postComment = await Comment.find({ postId: req.params.id });
+  const postComment = await Comment.find({postId: req.params.id});
   try {
     res.status(200).json(postComment);
   } catch (err) {
@@ -49,18 +49,18 @@ router.get("/:id", async (req, res) => {
 
 // edit post
 router.put("/:id", async (req, res) => {
-  const post = await Post.findByIdAndUpdate(req.params.id, {
-    postCategoryId: req.body.postCategory,
+  const post = await Post.findById(req.params.id);
+  const newPost = await Post.findByIdAndUpdate(req.params.id, {
     postName: req.body.postName,
     postBody: req.body.postBody,
+    userId: req.body.userId,
+    role: req.body.role,
   });
 
-  if (req.body.role != "admin" || req.body.userId != post.userId) {
-    res.status.send("You are not authenticated");
-  } else {
+  if (req.body.userId === post.userId || req.body.role === "admin") {
     try {
-      await post.save();
-      res.status(200).json(post);
+      await newPost.save();
+      res.status(200).json(newPost);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -69,16 +69,18 @@ router.put("/:id", async (req, res) => {
 
 // delete post
 router.delete("/:id", async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  if (req.body.role === "admin") {
+  const post = await Post.findById(req.params.id, {
+    role: req.body.role,
+  });
+  if (req.body.role != "admin") {
+    res.status(500).json("Only the admin may delete this post");
+  } else {
     try {
       await post.deleteOne();
       res.status(200).json(post);
     } catch (err) {
       res.status(500).json(err);
     }
-  } else {
-    res.status(500).json("Only the admin may delete this post");
   }
 });
 
@@ -86,7 +88,7 @@ router.delete("/:id", async (req, res) => {
 router.delete("/:id/comments", async (req, res) => {
   if (req.body.role === "admin") {
     try {
-      await Comment.deleteMany({ postId: req.params.id });
+      await Comment.deleteMany({postId: req.params.id});
       res.status(200).json(topic);
     } catch (err) {
       res.status(500).json(err);
