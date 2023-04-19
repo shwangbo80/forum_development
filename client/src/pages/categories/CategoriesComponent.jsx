@@ -70,15 +70,24 @@ function CategoriesComponent() {
 
   const renderCategories = () => {
     if (!categoryLoaded) {
-      return <Spinner animation="border" variant="primary" />;
+      return;
     }
     return (
       <div>
         {categoriesData.sort(categorySort).map((item) => {
           return (
             <div key={item._id}>
+              <hr></hr>
               <div className="pb-3">
-                <p className="text-dark fw-bold">{item.categoryName}</p>
+                <div className="d-flex">
+                  <p className="text-dark fw-bold mb-0 me-2">
+                    {item.categoryName}
+                  </p>
+                  <p className="fw-light">/</p>
+                  <p className="text-dark fw-light ms-2">
+                    {item.categoryDescription}
+                  </p>
+                </div>
                 <Row>{renderCategoryTopics(item._id)}</Row>
               </div>
             </div>

@@ -13,9 +13,6 @@ import CreatePost from "./pages/createPost/CreatePost";
 import PostComponent from "./pages/posts/PostComponent";
 import CreateComment from "./pages/createComment/CreateComment";
 import CreateCategory from "./pages/createCategory/CreateCategory";
-import EditComment from "./pages/editComment/EditComment";
-import EditPost from "./pages/editPost/EditPost";
-import EditCategory from "./pages/editCategory/EditCategory";
 import AdminCategories from "./pages/adminCategories/AdminCategories";
 import AdminUnderReview from "./pages/adminUnderReview/AdminUnderReview";
 import CategoriesComponent from "./pages/categories/CategoriesComponent";
@@ -57,18 +54,6 @@ const router = createBrowserRouter([
       {
         path: "forums/createComment",
         element: <CreateComment />,
-      },
-      {
-        path: "admin/editcategory/:id",
-        element: <EditCategory />,
-      },
-      {
-        path: "forums/editpost",
-        element: <EditPost />,
-      },
-      {
-        path: "forums/editComment",
-        element: <EditComment />,
       },
       {
         path: "admin",

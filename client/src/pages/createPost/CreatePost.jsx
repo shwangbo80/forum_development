@@ -14,6 +14,7 @@ function CreatePost() {
   const [postsData, setPostsData] = useState([]);
   const [postTitleErrMessage, setPostTitleErrMessage] = useState("");
   const [postBodyErrMessage, setPostBodyErrMessage] = useState("");
+  const [submitEnabled, setSubmitDisabled] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -30,6 +31,7 @@ function CreatePost() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!postsLoaded) {
       return;
     }
@@ -41,15 +43,16 @@ function CreatePost() {
       setPostTitleErrMessage("");
     }
 
-    if (postBody.length === 0) {
+    if (postBody.length < 5) {
       setPostBodyErrMessage("post body must be at least 5 characters");
       return;
     } else {
       setPostBodyErrMessage("");
     }
 
-    if (postName.length >= 5) {
+    if (postName.length >= 5 && postBody.length >= 5) {
       try {
+        setSubmitDisabled(true);
         const newPost = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}api/post`,
           {
@@ -76,38 +79,36 @@ function CreatePost() {
         <h2 className="mb-5">Create Post</h2>
         <Row>
           <Col md={10}>
-            <Form onSubmit={handleSubmit}>
-              <div className="mt-4">
-                <Form.Label>Post Title</Form.Label>
-                <Form.Control
-                  min="5"
-                  max="30"
-                  onChange={(e) => setPostName(e.target.value)}
-                  type="text"
-                />
-                <p className="text-danger">{postTitleErrMessage}</p>
-                <Form.Text muted>
-                  Your post title must be 5-30 characters long, and contain
-                  letters and numbers.
-                </Form.Text>
-              </div>
-              <div className="mt-4">
-                <Form.Label>Post Body</Form.Label>
-                <Form.Control
-                  onChange={(e) => setPostBody(e.target.value)}
-                  as="textarea"
-                  placeholder="Post body here"
-                  rows={10}
-                />
-                <p className="text-danger">{postBodyErrMessage}</p>
-                <Form.Text muted>
-                  Please follow forum Terms of Service
-                </Form.Text>
-              </div>
-              <div className="mt-5">
-                <Button onClick={handleSubmit}>Submit</Button>
-              </div>
-            </Form>
+            <div className="mt-4">
+              <Form.Label>Post Title</Form.Label>
+              <Form.Control
+                min="5"
+                max="30"
+                onChange={(e) => setPostName(e.target.value)}
+                type="text"
+              />
+              <p className="text-danger">{postTitleErrMessage}</p>
+              <Form.Text muted>
+                Your post title must be 5-30 characters long, and contain
+                letters and numbers.
+              </Form.Text>
+            </div>
+            <div className="mt-4">
+              <Form.Label>Post Body</Form.Label>
+              <Form.Control
+                onChange={(e) => setPostBody(e.target.value)}
+                as="textarea"
+                placeholder="Post body here"
+                rows={10}
+              />
+              <p className="text-danger">{postBodyErrMessage}</p>
+              <Form.Text muted>Please follow forum Terms of Service</Form.Text>
+            </div>
+            <div className="mt-5">
+              <Button onClick={handleSubmit} disabled={submitEnabled}>
+                Submit
+              </Button>
+            </div>
           </Col>
         </Row>
       </div>

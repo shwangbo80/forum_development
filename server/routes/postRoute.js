@@ -50,30 +50,32 @@ router.get("/:id", async (req, res) => {
 // edit post
 router.put("/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
-  const newPost = await Post.findByIdAndUpdate(req.params.id, {
-    postName: req.body.postName,
-    postBody: req.body.postBody,
-    userId: req.body.userId,
-    role: req.body.role,
-  });
 
   if (req.body.userId === post.userId || req.body.role === "admin") {
+    const newPost = await Post.findByIdAndUpdate(req.params.id, {
+      postName: req.body.postName,
+      postBody: req.body.postBody,
+      userId: req.body.userId,
+      role: req.body.role,
+    });
     try {
       await newPost.save();
       res.status(200).json(newPost);
     } catch (err) {
       res.status(500).json(err);
     }
+  } else {
+    res.status(500).send("You must be registered user");
   }
 });
 
 // delete post
 router.delete("/:id", async (req, res) => {
-  const post = await Post.findById(req.params.id, {
-    role: req.body.role,
-  });
-  if (req.body.role != "admin") {
-    res.status(500).json("Only the admin may delete this post");
+  const post = await Post.findById(req.params.id);
+  if (!req.body.role === "admin") {
+    res.status(500).json("Only the admin or post owner may delete this post");
+  } else if (!req.body.userId === post.userId || null) {
+    res.status(500).json("Only the admin or post owner may delete this post");
   } else {
     try {
       await post.deleteOne();
@@ -86,15 +88,20 @@ router.delete("/:id", async (req, res) => {
 
 //delete all comments in post
 router.delete("/:id/comments", async (req, res) => {
-  if (req.body.role === "admin") {
-    try {
-      await Comment.deleteMany({postId: req.params.id});
-      res.status(200).json(topic);
-    } catch (err) {
-      res.status(500).json(err);
+  const post = await Post.findById(req.params.id);
+  try {
+    if (!req.body.role === "admin" || !req.body.userId === post.userId) {
+      res.status(500).json("Only the admin or post owner may delete this post");
+    } else {
+      try {
+        await Comment.deleteMany({postId: req.params.id});
+        res.status(200).json(topic);
+      } catch (err) {
+        res.status(500).json(err);
+      }
     }
-  } else {
-    res.status(500).json("Only the admin may delete this post");
+  } catch (error) {
+    console.log(error);
   }
 });
 

@@ -38,15 +38,16 @@ router.get("/:id", async (req, res) => {
 
 // edit comment
 router.put("/:id", async (req, res) => {
-  const comment = await Comment.findByIdAndUpdate(req.params.id, {
+  const newComment = await Comment.findByIdAndUpdate(req.params.id, {
+    userId: req.body.userId,
     postId: req.body.postId,
     comment: req.body.comment,
   });
 
-  if (req.body.userId === comment.userId || req.body.role === "admin") {
+  if (req.body.userId === newComment.userId || req.body.role === "admin") {
     try {
-      await comment.save();
-      res.status(200).json(post);
+      await newComment.save();
+      res.status(200).json(newComment);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -58,7 +59,7 @@ router.put("/:id", async (req, res) => {
 // delete comment
 router.delete("/:id", async (req, res) => {
   const comment = await Comment.findById(req.params.id);
-  if (req.body.role === "admin") {
+  if (req.body.role === "admin" || req.body.userId === comment.userId) {
     try {
       await comment.deleteOne();
       res.status(200).json(comment);
@@ -66,7 +67,9 @@ router.delete("/:id", async (req, res) => {
       res.status(500).json(err);
     }
   } else {
-    res.status(500).json("Only the admin may delete this comment");
+    res
+      .status(500)
+      .json("Only the admin or comment user may delete this comment");
   }
 });
 

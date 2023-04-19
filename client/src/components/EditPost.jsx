@@ -13,10 +13,15 @@ const EditButton = (props) => {
   const [postBody, setPostBody] = useState(props.postBody);
   const [postTitleErrMessage, setPostTitleErrMessage] = useState("");
   const [postBodyErrMessage, setPostBodyErrMessage] = useState("");
+  const [submitEnabled, setSubmitDisabled] = useState(false);
+
   const urlParam = useParams();
   let navigate = useNavigate();
 
+  console.log("post ID: " + props.postId);
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (postName.length < 5) {
       setPostTitleErrMessage("post name must be at least 5 characters");
       return;
@@ -29,12 +34,13 @@ const EditButton = (props) => {
     } else {
       setPostBodyErrMessage("");
     }
-    if (postName.length >= 5) {
+    if (postName.length >= 5 && postBody.length >= 5) {
       try {
+        setSubmitDisabled(true);
         const newPost = await axios.put(
           `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`,
           {
-            // role: props.user.user_metadata.role || null,
+            role: props.user.user_metadata.role || null,
             userId: props.userId,
             postName: postName,
             postBody: postBody,
@@ -42,7 +48,7 @@ const EditButton = (props) => {
         );
         handleClose();
         console.log(newPost);
-        props.fetchPost();
+        return navigate(`../forums/topic/${props.topicId}`);
       } catch (err) {
         console.log(err);
       }
@@ -57,14 +63,27 @@ const EditButton = (props) => {
     );
     if (confirmDelete) {
       try {
-        await axios.delete(
-          `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`,
-          {
-            data: {role: "admin"},
-          }
-        );
+        setSubmitDisabled(true);
+        async function deleteComments() {
+          await axios.delete(
+            `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}/comments`,
+            {
+              data: {userId: props.userId},
+            }
+          );
+        }
+        async function deletePost() {
+          await axios.delete(
+            `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`,
+            {
+              data: {userId: props.userId},
+            }
+          );
+        }
+        deleteComments();
+        deletePost();
         handleClose();
-        return navigate(`../forums/topic/${props.topicId}`);
+        return navigate(`../forums/categories`);
       } catch (error) {
         console.log(error);
       }
@@ -94,50 +113,60 @@ const EditButton = (props) => {
                 <div>
                   <Row>
                     <Col md={10}>
-                      <Form onSubmit={handleSubmit}>
-                        <div className="mt-4">
-                          <Form.Label>Post Title</Form.Label>
-                          <Form.Control
-                            min="5"
-                            max="30"
-                            onChange={(e) => setPostName(e.target.value)}
-                            type="text"
-                            value={postName}
-                          />
-                          <p className="text-danger">{postTitleErrMessage}</p>
-                          <Form.Text muted>
-                            Your post title must be 5-30 characters long, and
-                            contain letters and numbers.
-                          </Form.Text>
-                        </div>
-                        <div className="mt-4">
-                          <Form.Label>Post Body</Form.Label>
-                          <Form.Control
-                            onChange={(e) => setPostBody(e.target.value)}
-                            as="textarea"
-                            placeholder="Post body here"
-                            rows={10}
-                            value={postBody}
-                          />
-                          <p className="text-danger">{postBodyErrMessage}</p>
-                          <Form.Text muted>
-                            Please follow forum Terms of Service
-                          </Form.Text>
-                        </div>
-                      </Form>
+                      <div className="mt-4">
+                        <Form.Label>Post Title</Form.Label>
+                        <Form.Control
+                          min="5"
+                          max="30"
+                          onChange={(e) => setPostName(e.target.value)}
+                          type="text"
+                          value={postName}
+                          // keyboard={false}
+                        />
+                        <p className="text-danger">{postTitleErrMessage}</p>
+                        <Form.Text muted>
+                          Your post title must be 5-30 characters long, and
+                          contain letters and numbers.
+                        </Form.Text>
+                      </div>
+                      <div className="mt-4">
+                        <Form.Label>Post Body</Form.Label>
+                        <Form.Control
+                          onChange={(e) => setPostBody(e.target.value)}
+                          as="textarea"
+                          placeholder="Post body here"
+                          rows={10}
+                          value={postBody}
+                        />
+                        <p className="text-danger">{postBodyErrMessage}</p>
+                        <Form.Text muted>
+                          Please follow forum Terms of Service
+                        </Form.Text>
+                      </div>
                     </Col>
                   </Row>
                 </div>
               </>{" "}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="secondary"
+                onClick={handleClose}
+                disabled={submitEnabled}>
                 Close
               </Button>
-              <Button variant="primary" onClick={handleSubmit}>
+              <Button
+                variant="primary"
+                type="button"
+                onClick={handleSubmit}
+                disabled={submitEnabled}>
                 Save Changes
               </Button>
-              <Button variant="danger" onClick={handleDelete}>
+              <Button
+                variant="danger"
+                type="button"
+                onClick={handleDelete}
+                disabled={submitEnabled}>
                 Delete
               </Button>
             </Modal.Footer>

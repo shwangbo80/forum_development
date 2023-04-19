@@ -1,3 +1,8 @@
+.postArea,
+.commentArea {
+  white-space: pre-wrap;
+}
+
 .mainBg {
   background-color: #ededed;
   min-height: 100vh;

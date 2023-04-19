@@ -128,7 +128,7 @@ function TopicComponent() {
 
   const renderTopic = () => {
     if (!topicLoaded) {
-      return <Spinner animation="border" variant="primary" />;
+      return;
     }
     return (
       <>

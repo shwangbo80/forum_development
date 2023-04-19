@@ -1,13 +1,14 @@
 import {React, useState, useEffect} from "react";
-import {Table, Button, Modal, Form} from "react-bootstrap";
-import {Link, useParams, useLocation} from "react-router-dom";
+import {Table, Spinner} from "react-bootstrap";
+import {Link, useParams, useNavigate} from "react-router-dom";
 import "./postComponent.css";
 import {useAuth0} from "@auth0/auth0-react";
-import EditButton from "../../components/EditButton";
+import EditPost from "../../components/EditPost";
 import axios from "axios";
 import CreateComment from "../createComment/CreateComment";
 import Moment from "react-moment";
 import ReactPaginate from "react-paginate";
+import EditComment from "../../components/EditComment";
 
 function PostComponent() {
   const {user, isAuthenticated, loginWithRedirect} = useAuth0();
@@ -16,11 +17,14 @@ function PostComponent() {
   const [postLoaded, setPostLoaded] = useState(false);
   const [commentsLoaded, setcommentsLoaded] = useState(false);
   const [commentsData, setCommentsData] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchPost();
     fetchComments();
   }, []);
+
+  console.log(postData);
 
   //Paginate start
 
@@ -38,16 +42,24 @@ function PostComponent() {
                 <div className="d-flex justify-content-between">
                   <div className="d-flex align-items-center">
                     <div className="me-3">{item.userId}</div>
-                    <div className="fw-light me-1">created/updated at:</div>
+                    <div className="fw-light me-1">created at:</div>
+                    <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
+                      {item.createdAt}
+                    </Moment>
+                    <div className="fw-light ms-3 me-1">updated at:</div>
                     <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
                       {item.updatedAt}
                     </Moment>
                   </div>
                   <div className="ms-5">
-                    <EditButton
+                    <EditComment
                       edit="editcomment"
+                      fetchComments={fetchComments}
                       userId={item.userId}
+                      topicId={postData.topicId}
                       postId={postData._id}
+                      commentId={item._id}
+                      commentBody={item.comment}
                     />
                   </div>
                 </div>
@@ -56,7 +68,7 @@ function PostComponent() {
           </thead>
           <tbody>
             <tr>
-              <td className="">{item.comment}</td>
+              <td className="commentArea">{item.comment}</td>
             </tr>
           </tbody>
         </Table>
@@ -102,6 +114,9 @@ function PostComponent() {
     const post = await axios.get(
       `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`
     );
+    if (!post.data) {
+      return navigate(`../forums/categories`);
+    }
     setPostData(post.data);
     setPostLoaded(true);
   };
@@ -130,16 +145,21 @@ function PostComponent() {
                 <div className="d-flex justify-content-between">
                   <div className="d-flex align-items-center">
                     <div className="me-3">{postData.userId}</div>
-                    <div className="fw-light me-1">created/updated at:</div>
+                    <div className="fw-light me-1">created at:</div>
                     <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
                       {postData.createdAt}
                     </Moment>
+                    <div className="fw-light ms-3 me-1">updated at:</div>
+                    <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
+                      {postData.updatedAt}
+                    </Moment>
                   </div>
                   <div className="ms-5">
-                    <EditButton
+                    <EditPost
                       edit="editcomment"
                       user={user}
                       postName={postData.postName}
+                      postId={postData._id}
                       postBody={postData.postBody}
                       userId={postData.userId}
                       topicId={postData.topicId}
@@ -152,17 +172,22 @@ function PostComponent() {
           </thead>
           <tbody>
             <tr>
-              <td className="">{postData.postBody}</td>
+              <td className="postArea">{postData.postBody}</td>
             </tr>
           </tbody>
         </Table>
+        <RenderComments />
       </>
     );
   };
 
   const RenderComments = () => {
     if (!commentsLoaded) {
-      return <div>Loading</div>;
+      return (
+        <div className="d-flex justify-content-center">
+          <Spinner />
+        </div>
+      );
     }
     if (commentsData.length === 0) {
       return <p className="mt-5">No comments. Be the first to comment</p>;
@@ -173,51 +198,12 @@ function PostComponent() {
         <PaginatedItems itemsPerPage={20} />
       </div>
     );
-
-    // return commentsData.map((item) => {
-    //   return (
-    //     <>
-    //       <Table
-    //         responsive
-    //         bordered
-    //         className="tableContainer mt-2"
-    //         key={item._id}>
-    //         <thead className="bg-violet">
-    //           <tr>
-    //             <th>
-    //               <div className="d-flex justify-content-between">
-    //                 <div className="d-flex align-items-center">
-    //                   <div className="me-3">{item.userId}</div>
-    //                   <div className="fw-light me-1">created/updated at:</div>
-    //                   <Moment
-    //                     format="MM/DD/YYYY, h:mm:ss a"
-    //                     className="fw-light">
-    //                     {item.updatedAt}
-    //                   </Moment>
-    //                 </div>
-    //                 <div className="ms-5">
-    //                   <EditButton edit="editcomment" />
-    //                 </div>
-    //               </div>
-    //             </th>
-    //           </tr>
-    //         </thead>
-    //         <tbody>
-    //           <tr>
-    //             <td className="">{item.comment}</td>
-    //           </tr>
-    //         </tbody>
-    //       </Table>
-    //     </>
-    //   );
-    // });
   };
 
   return (
     <>
       <RenderPost />
       {/* <PaginatedItems itemsPerPage={10} /> */}
-      <RenderComments />
       <hr
         className="my-5"
         style={{border: "none", borderBottom: "2px solid #000"}}
