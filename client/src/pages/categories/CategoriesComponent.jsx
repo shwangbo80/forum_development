@@ -1,7 +1,7 @@
-import {React, useEffect, useState} from "react";
-import {Row, Col, Spinner} from "react-bootstrap";
+import { React, useEffect, useState } from "react";
+import { Row, Col, Spinner } from "react-bootstrap";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function CategoriesComponent() {
   const [categoryLoaded, setcategoryLoaded] = useState(false);
@@ -98,7 +98,7 @@ function CategoriesComponent() {
   };
 
   return (
-    <div>
+    <div className="p-5">
       <h2 className="mb-4">Categories</h2>
       {renderCategories()}
     </div>

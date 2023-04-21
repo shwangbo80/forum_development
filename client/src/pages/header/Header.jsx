@@ -13,7 +13,7 @@ import "../../components/navbar/NavbarComponent";
 
 function Header() {
   return (
-    <Container className="px-5 py-3">
+    <Container className="px-5 py-3 headerBg">
       <Row>
         <Col md={3}>
           <a href="/">
@@ -22,7 +22,7 @@ function Header() {
         </Col>
         <Col md={3}></Col>
         <Col>
-          <InputGroup className="mb-3 searchForm">
+          {/* <InputGroup className="mb-3 searchForm">
             <Form.Control
               placeholder="Search posts"
               aria-label="Search posts"
@@ -31,7 +31,7 @@ function Header() {
             <Button className="bg-light text-dark" id="button-addon2">
               Search
             </Button>
-          </InputGroup>
+          </InputGroup> */}
         </Col>
       </Row>
     </Container>

@@ -1,3 +1,7 @@
+.bg-darkBlue {
+  background-color: #1d3557;
+}
+
 .postArea,
 .commentArea {
   white-space: pre-wrap;
@@ -6,6 +10,10 @@
 .mainBg {
   background-color: #ededed;
   min-height: 100vh;
+}
+
+.headerBg {
+  background-color: white;
 }
 
 .bg-violet {
@@ -59,4 +67,25 @@
 .nextLinkClassName {
   color: black;
   text-decoration: none;
+}
+
+.emailLink {
+  color: white;
+}
+
+.emailLinkm:visited {
+  color: white;
+}
+
+.emailLink:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.emailLink:active {
+  color: white;
+}
+
+.postBox {
+  border: 0.5px solid grey;
 }

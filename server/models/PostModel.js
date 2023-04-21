@@ -24,9 +24,10 @@ const PostSchema = new mongoose.Schema(
     postBody: {
       type: String,
       required: true,
+      minLength: 5,
     },
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Posts", PostSchema);

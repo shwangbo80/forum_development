@@ -1,11 +1,11 @@
-import {React, useState, useEffect} from "react";
-import {useAuth0} from "@auth0/auth0-react";
-import {Button, Modal, Form, Row, Col} from "react-bootstrap";
-import {useNavigate, useParams} from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditButton = (props) => {
-  const {user, isAuthenticated, isLoading} = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -68,7 +68,7 @@ const EditButton = (props) => {
           await axios.delete(
             `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}/comments`,
             {
-              data: {userId: props.userId},
+              data: { userId: props.userId },
             }
           );
         }
@@ -76,7 +76,7 @@ const EditButton = (props) => {
           await axios.delete(
             `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}`,
             {
-              data: {userId: props.userId},
+              data: { userId: props.userId },
             }
           );
         }
@@ -104,7 +104,8 @@ const EditButton = (props) => {
             keyboard={false}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
-            centered>
+            centered
+          >
             <Modal.Header closeButton>
               <Modal.Title>Edit post</Modal.Title>
             </Modal.Header>
@@ -152,21 +153,24 @@ const EditButton = (props) => {
               <Button
                 variant="secondary"
                 onClick={handleClose}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Close
               </Button>
               <Button
                 variant="primary"
                 type="button"
                 onClick={handleSubmit}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Save Changes
               </Button>
               <Button
                 variant="danger"
                 type="button"
                 onClick={handleDelete}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Delete
               </Button>
             </Modal.Footer>

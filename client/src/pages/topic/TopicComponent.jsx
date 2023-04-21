@@ -1,9 +1,9 @@
-import {React, useEffect, useState, useRef} from "react";
-import {Table, Button, Spinner} from "react-bootstrap";
+import { React, useEffect, useState, useRef } from "react";
+import { Table, Button, Spinner } from "react-bootstrap";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Moment from "react-moment";
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import ReactPaginate from "react-paginate";
 
 function TopicComponent() {
@@ -11,7 +11,7 @@ function TopicComponent() {
   const [postsData, setPostsData] = useState([]);
   const [topicLoaded, setTopicLoaded] = useState(false);
   const [topicData, setTopicData] = useState([]);
-  const {user, isAuthenticated, loginWithRedirect} = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const urlParam = useParams();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function TopicComponent() {
     fetchPosts();
   }, []);
 
-  function Items({currentItems}) {
+  function Items({ currentItems }) {
     return (
       <>
         <Table hover responsive>
@@ -62,7 +62,7 @@ function TopicComponent() {
     );
   }
 
-  function PaginatedItems({itemsPerPage}) {
+  function PaginatedItems({ itemsPerPage }) {
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
@@ -150,10 +150,11 @@ function TopicComponent() {
               Please{" "}
               <span
                 className="text-primary fw-bold"
-                style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   loginWithRedirect();
-                }}>
+                }}
+              >
                 LOGIN
               </span>{" "}
               to make posts.
@@ -176,10 +177,11 @@ function TopicComponent() {
               Please{" "}
               <span
                 className="text-primary fw-bold"
-                style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onClick={() => {
                   loginWithRedirect();
-                }}>
+                }}
+              >
                 LOGIN
               </span>{" "}
               to make posts.
@@ -195,7 +197,7 @@ function TopicComponent() {
   };
 
   return (
-    <div>
+    <div className="p-5">
       {renderTopic()}
       {renderPosts()}
     </div>

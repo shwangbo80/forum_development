@@ -39,7 +39,7 @@ function AdminCategories() {
         <Row>
           {categoriesData.sort(categorySort).map((item) => {
             return (
-              <Col md={4} key={item._id}>
+              <Col md={6} key={item._id}>
                 <div className="pb-3">
                   <Link
                     to={`../../admin/editcategory/${item._id}`}

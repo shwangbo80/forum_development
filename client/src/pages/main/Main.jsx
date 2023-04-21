@@ -1,16 +1,20 @@
 import React from "react";
-import {Container} from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "./main.css";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Header from "../header/Header";
 import NavbarComponent from "../../components/navbar/NavbarComponent";
+import FooterComponent from "../../components/FooterComponent";
 
 function Main() {
   return (
     <>
+      <Header />
       <NavbarComponent />
-      <Container className="mainContainer p-5">
+      <Container className="mainContainer p-0">
         <Outlet />
       </Container>
+      <FooterComponent />
     </>
   );
 }

@@ -1,8 +1,8 @@
-import {React, useState, useEffect} from "react";
-import {Table, Spinner} from "react-bootstrap";
-import {Link, useParams, useNavigate} from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { Table, Spinner, Image } from "react-bootstrap";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import "./postComponent.css";
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import EditPost from "../../components/EditPost";
 import axios from "axios";
 import CreateComment from "../createComment/CreateComment";
@@ -11,13 +11,15 @@ import ReactPaginate from "react-paginate";
 import EditComment from "../../components/EditComment";
 
 function PostComponent() {
-  const {user, isAuthenticated, loginWithRedirect} = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const urlParam = useParams();
   const [postData, setPostData] = useState([]);
   const [postLoaded, setPostLoaded] = useState(false);
   const [commentsLoaded, setcommentsLoaded] = useState(false);
   const [commentsData, setCommentsData] = useState([]);
   let navigate = useNavigate();
+
+  console.log(user);
 
   useEffect(() => {
     fetchPost();
@@ -26,17 +28,33 @@ function PostComponent() {
 
   console.log(postData);
 
+  function renderUpdatedDate(date) {
+    if (date.createdAt === date.updatedAt) {
+      return;
+    } else {
+      return (
+        <div className="d-flex mb-3">
+          <div className="fw-light me-1">updated at:</div>
+          <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
+            {date.updatedAt}
+          </Moment>
+        </div>
+      );
+    }
+  }
+
   //Paginate start
 
-  function Items({currentItems}) {
-    return currentItems.reverse().map((item) => {
+  function Items({ currentItems }) {
+    return currentItems.map((item) => {
       return (
         <Table
           responsive
           bordered
-          className="tableContainer mt-2"
-          key={item._id}>
-          <thead className="bg-violet">
+          className="tableContainer mt-3"
+          key={item._id}
+        >
+          <thead className="bg-darkBlue text-light">
             <tr>
               <th>
                 <div className="d-flex justify-content-between">
@@ -45,10 +63,6 @@ function PostComponent() {
                     <div className="fw-light me-1">created at:</div>
                     <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
                       {item.createdAt}
-                    </Moment>
-                    <div className="fw-light ms-3 me-1">updated at:</div>
-                    <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
-                      {item.updatedAt}
                     </Moment>
                   </div>
                   <div className="ms-5">
@@ -66,9 +80,12 @@ function PostComponent() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="postBox">
             <tr>
-              <td className="commentArea">{item.comment}</td>
+              <td className="commentArea">
+                {renderUpdatedDate(item)}
+                {item.comment}
+              </td>
             </tr>
           </tbody>
         </Table>
@@ -76,7 +93,7 @@ function PostComponent() {
     });
   }
 
-  function PaginatedItems({itemsPerPage}) {
+  function PaginatedItems({ itemsPerPage }) {
     const [itemOffset, setItemOffset] = useState(0);
     const endOffset = itemOffset + itemsPerPage;
     const currentItems = commentsData.slice(itemOffset, endOffset);
@@ -125,7 +142,7 @@ function PostComponent() {
     const comments = await axios.get(
       `${process.env.REACT_APP_SERVER_URL}api/post/${urlParam.id}/comments`
     );
-    setCommentsData(comments.data);
+    setCommentsData(comments.data.reverse());
     setcommentsLoaded(true);
   };
 
@@ -138,8 +155,9 @@ function PostComponent() {
         <div>
           <h2 className="mb-4">{postData.postName}</h2>
         </div>
+
         <Table responsive bordered className="tableContainer">
-          <thead className="bg-primary text-light">
+          <thead className="bg-darkBlue text-light">
             <tr>
               <th>
                 <div className="d-flex justify-content-between">
@@ -148,10 +166,6 @@ function PostComponent() {
                     <div className="fw-light me-1">created at:</div>
                     <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
                       {postData.createdAt}
-                    </Moment>
-                    <div className="fw-light ms-3 me-1">updated at:</div>
-                    <Moment format="MM/DD/YYYY, h:mm:ss a" className="fw-light">
-                      {postData.updatedAt}
                     </Moment>
                   </div>
                   <div className="ms-5">
@@ -170,9 +184,12 @@ function PostComponent() {
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="postBox">
             <tr>
-              <td className="postArea">{postData.postBody}</td>
+              <td className="postArea">
+                {renderUpdatedDate(postData)}
+                {postData.postBody}
+              </td>
             </tr>
           </tbody>
         </Table>
@@ -188,25 +205,26 @@ function PostComponent() {
           <Spinner />
         </div>
       );
-    }
-    if (commentsData.length === 0) {
+    } else if (!user) {
+      return;
+    } else if (commentsData.length === 0) {
       return <p className="mt-5">No comments. Be the first to comment</p>;
     }
     return (
       <div className="mt-5">
-        <h6>Comments</h6>
+        <h4>Comments</h4>
         <PaginatedItems itemsPerPage={20} />
       </div>
     );
   };
 
   return (
-    <>
+    <div className="p-5">
       <RenderPost />
       {/* <PaginatedItems itemsPerPage={10} /> */}
       <hr
         className="my-5"
-        style={{border: "none", borderBottom: "2px solid #000"}}
+        style={{ border: "none", borderBottom: "2px solid #000" }}
       />
       {!postLoaded ? (
         <div></div>
@@ -215,10 +233,11 @@ function PostComponent() {
           Please{" "}
           <span
             className="text-primary fw-bold"
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
             onClick={() => {
               loginWithRedirect();
-            }}>
+            }}
+          >
             login
           </span>{" "}
           to make comments.
@@ -230,7 +249,7 @@ function PostComponent() {
           postId={urlParam.id}
         />
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,19 +1,22 @@
 const router = require("express").Router();
 const Post = require("../models/PostModel");
 const Comment = require("../models/CommentModel");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 // create post
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
-  if (!req.body.userId) {
-    res.status(500).send("You must be registered user");
-  } else {
-    try {
+  try {
+    if (!req.body.userId) {
+      res.status(500).send("You must be registered user");
+    } else if (!ObjectId.isValid(req.body.topicId)) {
+      res.status(500).send("Invalid ID");
+    } else {
       const savedPost = await newPost.save();
       res.status(200).json(savedPost);
-    } catch (err) {
-      res.status(500).json(err);
     }
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
@@ -29,7 +32,7 @@ router.get("/", async (req, res) => {
 
 //get all comments in post
 router.get("/:id/comments", async (req, res) => {
-  const postComment = await Comment.find({postId: req.params.id});
+  const postComment = await Comment.find({ postId: req.params.id });
   try {
     res.status(200).json(postComment);
   } catch (err) {
@@ -94,7 +97,7 @@ router.delete("/:id/comments", async (req, res) => {
       res.status(500).json("Only the admin or post owner may delete this post");
     } else {
       try {
-        await Comment.deleteMany({postId: req.params.id});
+        await Comment.deleteMany({ postId: req.params.id });
         res.status(200).json(topic);
       } catch (err) {
         res.status(500).json(err);

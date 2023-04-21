@@ -1,12 +1,12 @@
 import React from "react";
-import {Container, Row, Col} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 function About() {
   return (
     <Row>
       <Col></Col>
       <Col md={8}>
-        <div className="welcomeContainer p-5">
+        <div className="p-5">
           <h2 className="text-center">[About namuweb]</h2>
           <br></br>
           <div className="homeTextContainer">
