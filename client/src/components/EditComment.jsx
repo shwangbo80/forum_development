@@ -1,11 +1,11 @@
-import {React, useState, useEffect} from "react";
-import {useAuth0} from "@auth0/auth0-react";
-import {Button, Modal, Form, Row, Col} from "react-bootstrap";
-import {useNavigate, useParams} from "react-router-dom";
+import { React, useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const EditComment = (props) => {
-  const {user, isAuthenticated, isLoading} = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,6 +14,8 @@ const EditComment = (props) => {
   const [submitEnabled, setSubmitDisabled] = useState(false);
 
   let navigate = useNavigate();
+  console.log(props.postId);
+  console.log(props.commentId);
 
   const handleSubmit = async (e) => {
     if (commentBody.length <= 0) {
@@ -26,11 +28,9 @@ const EditComment = (props) => {
       try {
         setSubmitDisabled(true);
         const newComment = await axios.put(
-          `${process.env.REACT_APP_SERVER_URL}api/comment/${props.commentId}`,
+          `${process.env.REACT_APP_SERVER_URL}api/post/${props.postId}/comments/${props.commentId}`,
           {
-            // role: props.user.user_metadata.role || null,
-            userId: props.userId,
-            postId: props.postId,
+            userId: user.username,
             comment: commentBody,
           }
         );
@@ -54,11 +54,9 @@ const EditComment = (props) => {
       try {
         setSubmitDisabled(true);
         const deleteComents = await axios.delete(
-          `${process.env.REACT_APP_SERVER_URL}api/comment/${props.commentId}`,
+          `${process.env.REACT_APP_SERVER_URL}api/post/${props.postId}/comments/${props.commentId}`,
           {
-            data: {
-              userId: props.userId,
-            },
+            data: { userId: props.userId, role: user.user_metadata.role },
           }
         );
         handleClose();
@@ -83,7 +81,8 @@ const EditComment = (props) => {
             keyboard={false}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
-            centered>
+            centered
+          >
             <Modal.Header closeButton>
               <Modal.Title>Edit comment</Modal.Title>
             </Modal.Header>
@@ -117,19 +116,22 @@ const EditComment = (props) => {
               <Button
                 variant="secondary"
                 onClick={handleClose}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Close
               </Button>
               <Button
                 variant="primary"
                 onClick={handleSubmit}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Save Changes
               </Button>
               <Button
                 variant="danger"
                 onClick={handleDelete}
-                disabled={submitEnabled}>
+                disabled={submitEnabled}
+              >
                 Delete
               </Button>
             </Modal.Footer>

@@ -1,12 +1,12 @@
-import {React, useEffect, useState} from "react";
-import {Row, Col, Form, Button} from "react-bootstrap";
+import { React, useEffect, useState } from "react";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import "./createComment.css";
 import axios from "axios";
-import {useAuth0} from "@auth0/auth0-react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate, useParams } from "react-router-dom";
 
-function CreateComment({fetchComments, postId, topicId}) {
-  const {user} = useAuth0();
+function CreateComment({ fetchComments, postId, topicId }) {
+  const { user } = useAuth0();
   const [commentBody, setCommentBody] = useState("");
   const navigate = useNavigate();
   const [submitEnabled, setSubmitDisabled] = useState(false);
@@ -20,11 +20,13 @@ function CreateComment({fetchComments, postId, topicId}) {
     try {
       setSubmitDisabled(true);
       setCommentBody("");
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}api/comment`, {
-        userId: user.username,
-        postId: postId,
-        comment: commentBody,
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}api/post/${postId}/comments/`,
+        {
+          userId: user.username,
+          comment: commentBody,
+        }
+      );
       navigate(`../forums/topic/${topicId}`);
       //   fetchComments();
     } catch (err) {
@@ -45,7 +47,7 @@ function CreateComment({fetchComments, postId, topicId}) {
                 rows={5}
                 value={commentBody}
                 onChange={(e) => setCommentBody(e.target.value)}
-                style={{resize: "none"}}
+                style={{ resize: "none" }}
               />
               <p className="text-danger">{postCommentErrMessage}</p>
               <Form.Text muted>Please follow forum Terms of Service</Form.Text>

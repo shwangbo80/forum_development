@@ -11,6 +11,8 @@ function TopicComponent() {
   const [postsData, setPostsData] = useState([]);
   const [topicLoaded, setTopicLoaded] = useState(false);
   const [topicData, setTopicData] = useState([]);
+  const [commentsLoaded, setCommentsLoaded] = useState(false);
+  const [commentsData, setCommentsData] = useState([]);
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const urlParam = useParams();
 
@@ -25,10 +27,10 @@ function TopicComponent() {
         <Table hover responsive>
           <thead className="bg-secondary text-light">
             <tr>
-              <th className="numHead">No</th>
+              <th className="numHead text-center">No</th>
               <th className="topicHead">Title</th>
               <th className="authorHead">Created By</th>
-              <th className="commentsHead">Comments</th>
+              <th className="commentsHead text-center">Comments</th>
               <th className="lastPostHead">Last Post</th>
             </tr>
           </thead>
@@ -36,22 +38,18 @@ function TopicComponent() {
             return (
               <tbody className="tbodyContainer" key={item._id}>
                 <tr>
-                  <td className="fw-lighter">
-                    {item.postId}
-                    {/* {key} */}
-                    {/* need to add item number to backend */}
-                  </td>
-                  <td className="">
+                  <td className="fw-lighter text-center">{item.postId}</td>
+                  <td>
                     <Link to={`../forums/post/${item._id}`}>
                       {item.postName}
                     </Link>
                   </td>
                   <td className="fw-light">{item.userId}</td>
-                  <td className="">{/* must include length of comments */}</td>
-                  <td className="">
-                    {/* <Moment format="MM/DD/YYYY"> */}
-                    {/* must include date of most recent comment */}
-                    {/* </Moment> */}
+                  <td className="text-center">{item.comments.length}</td>
+                  <td>
+                    <Moment format="MM/DD/YYYY, h:mm:ss a">
+                      {item.comments[item.comments.length - 1].createdAt}
+                    </Moment>
                   </td>
                 </tr>
               </tbody>

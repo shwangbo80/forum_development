@@ -25,23 +25,23 @@
 }
 
 .numHead {
-  width: 5%;
+  width: 10%;
 }
 
 .topicHead {
-  width: 60%;
+  width: 50%;
 }
 
 .authorHead {
-  width: 15%;
+  width: 10%;
 }
 
 .commentsHead {
-  width: 5%;
+  width: 10%;
 }
 
 .lastPostHead {
-  width: 15%;
+  width: 20%;
 }
 
 .pageLink {
