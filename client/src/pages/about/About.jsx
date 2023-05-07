@@ -7,30 +7,40 @@ function About() {
       <Col></Col>
       <Col md={8}>
         <div className="p-5">
-          <h2 className="text-center">[About namuweb]</h2>
           <br></br>
           <div className="homeTextContainer">
-            <p className="homeText">
-              namuweb is an online community forum that engages converstations
-              in various topics
-            </p>
-            <p className="homeText">
-              At this moment, the service is still in development and testing
-              stage.
-            </p>
-            <p className="homeText">You can use Namu to:</p>
-            <ul>
-              <li>Search for topics of your interest</li>
-              <li>Create new discussions in topics</li>
-              <li>Freely discuss your opinions and engage in converstions</li>
-            </ul>
-            <p>
-              Feel free to brouwse around various topics, or register to join
-              conversations.
-            </p>
-            <br></br>
-            <p>Planned, Designed, and Developed by Soo Hwangbo</p>
-            <p>Tech Stack: React, MongoDB, Node Js</p>
+            <div className="homeText">
+              <h1 className="mb-5">Community Forum</h1>
+              <h2>Overview</h2>
+              <p>
+                This Community Forum Application is a web-based forum platform
+                that allows users to create and participate in discussions.
+                Built using the MERN stack, the application provides a
+                centralized platform for users to share knowledge, ask
+                questions, and engage in meaningful conversations. Its
+                user-friendly interface and support for rich text formatting,
+                images, and video make it an ideal tool for businesses,
+                educational institutions, or online communities looking to build
+                a knowledge-sharing platform.
+              </p>
+              <h2>Benefits</h2>
+              <p className="fw-bold mb-0">
+                Centralized platform for knowledge sharing
+              </p>
+              <p>
+                The application provides a centralized platform for users to
+                share knowledge, ask questions, and engage in meaningful
+                conversations.
+              </p>
+              <p className="fw-bold mb-0">Community building</p>
+              <p>
+                The application fosters a sense of community by allowing users
+                to interact with each other, share experiences, and learn from
+                one another. Scalable and customizable: The application is built
+                using the MERN stack, which makes it easy to scale and customize
+                based on the needs of the users.
+              </p>
+            </div>
           </div>
         </div>
       </Col>

@@ -11,8 +11,6 @@ function TopicComponent() {
   const [postsData, setPostsData] = useState([]);
   const [topicLoaded, setTopicLoaded] = useState(false);
   const [topicData, setTopicData] = useState([]);
-  const [commentsLoaded, setCommentsLoaded] = useState(false);
-  const [commentsData, setCommentsData] = useState([]);
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const urlParam = useParams();
 
@@ -48,7 +46,9 @@ function TopicComponent() {
                   <td className="text-center">{item.comments.length}</td>
                   <td>
                     <Moment format="MM/DD/YYYY, h:mm:ss a">
-                      {item.comments[item.comments.length - 1].createdAt}
+                      {item.comments.length > 0
+                        ? item.comments[item.comments.length - 1].createdAt
+                        : item.createdAt}
                     </Moment>
                   </td>
                 </tr>
@@ -129,13 +129,29 @@ function TopicComponent() {
       return;
     }
     return (
-      <>
+      <div className="mb-5">
         <h2>{topicData.topicName}</h2>
         <p>{topicData.topicDescription}</p>
-        <Link to={`../forums/createpost/${topicData._id}`}>
-          <Button className="mb-3">Make a post</Button>
-        </Link>
-      </>
+        {!isAuthenticated || user.email_verified === false ? (
+          <p>
+            Please{" "}
+            <span
+              className="text-primary fw-bold"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                loginWithRedirect();
+              }}
+            >
+              login
+            </span>{" "}
+            or verify Email to make comments.
+          </p>
+        ) : (
+          <Link to={`../forums/createpost/${topicData._id}`}>
+            <Button className="mb-3">Make a post</Button>
+          </Link>
+        )}
+      </div>
     );
   };
 
@@ -143,23 +159,6 @@ function TopicComponent() {
     if (postsData.length === 0) {
       return (
         <>
-          {!isAuthenticated ? (
-            <p className="mt-5">
-              Please{" "}
-              <span
-                className="text-primary fw-bold"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  loginWithRedirect();
-                }}
-              >
-                LOGIN
-              </span>{" "}
-              to make posts.
-            </p>
-          ) : (
-            <div></div>
-          )}
           <p>No posts yet</p>
         </>
       );
@@ -169,25 +168,6 @@ function TopicComponent() {
     }
     return (
       <>
-        <div>
-          {!isAuthenticated ? (
-            <p className="mt-5">
-              Please{" "}
-              <span
-                className="text-primary fw-bold"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  loginWithRedirect();
-                }}
-              >
-                LOGIN
-              </span>{" "}
-              to make posts.
-            </p>
-          ) : (
-            <div></div>
-          )}
-        </div>
         <PaginatedItems itemsPerPage={20} />
         <div></div>
       </>

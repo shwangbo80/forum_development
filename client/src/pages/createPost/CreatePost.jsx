@@ -41,14 +41,14 @@ function CreatePost(props) {
       setPostTitleErrMessage("");
     }
 
-    if (postBody.length < 5) {
-      setPostBodyErrMessage("post body must be at least 5 characters");
+    if (postBody.length < 1) {
+      setPostBodyErrMessage("post body must be at least 1 character");
       return;
     } else {
       setPostBodyErrMessage("");
     }
 
-    if (postName.length >= 5 && postBody.length >= 5) {
+    if (postName.length >= 5 && postBody.length >= 1) {
       try {
         setSubmitDisabled(true);
         const newPost = await axios.post(

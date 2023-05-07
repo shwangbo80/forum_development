@@ -1,42 +1,56 @@
-import React from "react";
-import { Col, Row, Button, Form } from "react-bootstrap";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Col, Row, Button, Form, Container } from "react-bootstrap";
+import {
+  Link,
+  Outlet,
+  Navigate,
+  useNavigate,
+  redirect,
+} from "react-router-dom";
 import "./admin.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import CreateCategory from "../../components/CreateCategory";
 
 function Admin() {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  let navigate = useNavigate();
 
   if (!user) {
-    return navigate(`../`);
+    redirect("/");
   } else if (user.user_metadata.role != "admin") {
-    return navigate(`../`);
+    redirect("/");
   } else if (user.user_metadata.role === "admin") {
     return (
       <>
-        <div>
-          <h2 className="mb-4">Admin Dashboard</h2>
-          <div className="mb-4">
-            <Link to={"../../forums/createCategory"}>
-              <Button className="btn-secondary">Create a category</Button>
-            </Link>
-          </div>
-          <Row className="adminPanel">
-            <Col md={2} className="leftPanel">
-              <p className="text-dark fw-bold">
-                <Link to={"./"}>Categories</Link>
-              </p>
-              <p className="text-dark fw-bold">
-                <Link to={"./underreview"}>Under Review</Link>
-              </p>
-            </Col>
-            <Col md={10}>
-              <div className="ms-4">
-                <Outlet />
+        <div className="container-fluid">
+          <div className="row">
+            <nav
+              id="sidebarMenu"
+              className="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse bg-secondary"
+            >
+              <div className="position-sticky pt-5 sidebar-sticky text-light">
+                <ul className="nav flex-column">
+                  <li className="nav-item">
+                    <span data-feather="home" className="align-text-bottom" />
+                    <h5>Dashboard</h5>
+                  </li>
+                  <li className="nav-item">
+                    <p>
+                      <a className="text-light" href="admin">
+                        Categories
+                      </a>
+                    </p>
+                  </li>
+                </ul>
               </div>
-            </Col>
-          </Row>
+            </nav>
+            <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4  pb-5">
+              <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 className="h2 my-5">Admin Dashboard</h1>
+                <div className="btn-toolbar mb-2 mb-md-0"></div>
+              </div>
+              <Outlet />
+            </main>
+          </div>
         </div>
       </>
     );

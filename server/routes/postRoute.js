@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 });
 
 // edit post
-//needs to be owner of a post for authorization
+// needs to be owner of a post for authorization
 router.put("/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
 
@@ -67,7 +67,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete post
-//needs to be owner of a post or admin for authorization
+// needs to be owner of a post or admin for authorization
 router.delete("/:id", async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!req.body.role === "admin") {
@@ -84,8 +84,8 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//get all comments in post
-//Does not require authorization
+// get all comments in post
+// Does not require authorization
 router.get("/:id/comments", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -95,8 +95,8 @@ router.get("/:id/comments", async (req, res) => {
   }
 });
 
-//get a single comment
-//Does not require authorization
+// get a single comment
+// Does not require authorization
 router.get("/:id/comments/:commentId", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -107,8 +107,8 @@ router.get("/:id/comments/:commentId", async (req, res) => {
   }
 });
 
-//post new comment
-//needs user ID for authorization
+// post new comment
+// needs user ID for authorization
 router.post("/:id/comments", async (req, res) => {
   if (req.body.userId) {
     try {
@@ -125,8 +125,8 @@ router.post("/:id/comments", async (req, res) => {
   }
 });
 
-//edit a comment
-//needs to be owner of a comment for authorization
+// edit a comment
+// needs to be owner of a comment for authorization
 router.put("/:id/comments/:commentId", async (req, res) => {
   const post = await Post.findById(req.params.id);
   const comment = await post.comments.id(req.params.commentId);
@@ -145,8 +145,8 @@ router.put("/:id/comments/:commentId", async (req, res) => {
   }
 });
 
-//delete a comment
-//needs to be owner of a comment or admin for authorization
+// delete a comment
+// needs to be owner of a comment or admin for authorization
 router.delete("/:id/comments/:commentId", async (req, res) => {
   const post = await Post.findById(req.params.id);
   const comment = await post.comments.id(req.params.commentId);
@@ -166,7 +166,7 @@ router.delete("/:id/comments/:commentId", async (req, res) => {
 });
 
 // !!!!KEEP UNTIL TESTS FOR NEW COMMENT ROUTES PASSES!!!!
-//Old routes (before embedding comments into post array)
+// Old routes (before embedding comments into post array)
 
 // get all comments in post
 // router.get("/:id/comments", async (req, res) => {
@@ -178,7 +178,7 @@ router.delete("/:id/comments/:commentId", async (req, res) => {
 //   }
 // });
 
-//delete all comments in post
+// delete all comments in post
 // router.delete("/:id/comments", async (req, res) => {
 //   const post = await Post.findById(req.params.id);
 //   try {

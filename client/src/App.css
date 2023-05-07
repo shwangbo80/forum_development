@@ -1,5 +1,112 @@
+body {
+  overflow-x: hidden;
+}
+
+.headerText {
+  color: black;
+  margin-bottom: 0px;
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.descText {
+  margin-bottom: 0px;
+  color: black;
+}
+
+.searchForm {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+/* Landing Page Start */
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.hero {
+  background-image: url("https://images.unsplash.com/photo-1569982175971-d92b01cf8694?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1935&q=800");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-align: center;
+  padding: 10rem 0;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+/* Features section styles */
+.features {
+  background-color: #f8f8f8;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.features ul {
+  list-style: none;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.features li {
+  max-width: 300px;
+  text-align: left;
+}
+
+.features li strong {
+  font-weight: bold;
+}
+
+/* CTA section styles */
+.cta {
+  background-color: #f36;
+  color: #fff;
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.cta h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Landing Page End */
+
+.topicsLink:hover {
+  text-decoration: underline;
+  text-decoration-color: lightblue;
+}
+
 .bg-darkBlue {
   background-color: #1d3557;
+}
+
+.text-darkBlue {
+  color: #1d3557;
 }
 
 .postArea,
@@ -88,4 +195,12 @@
 
 .postBox {
   border: 0.5px solid grey;
+}
+
+.homeText {
+  font-size: 12pt;
+}
+
+.editButton:hover {
+  cursor: pointer;
 }

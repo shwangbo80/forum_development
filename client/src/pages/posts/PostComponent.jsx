@@ -221,14 +221,13 @@ function PostComponent() {
   return (
     <div className="p-5">
       <RenderPost />
-      {/* <PaginatedItems itemsPerPage={10} /> */}
       <hr
         className="my-5"
         style={{ border: "none", borderBottom: "2px solid #000" }}
       />
       {!postLoaded ? (
         <div></div>
-      ) : !isAuthenticated ? (
+      ) : !isAuthenticated || user.email_verified === false ? (
         <p>
           Please{" "}
           <span
@@ -240,7 +239,7 @@ function PostComponent() {
           >
             login
           </span>{" "}
-          to make comments.
+          or verify Email to make comments.
         </p>
       ) : (
         <CreateComment

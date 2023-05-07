@@ -11,7 +11,7 @@ function Main() {
     <>
       <Header />
       <NavbarComponent />
-      <Container className="mainContainer p-0">
+      <Container className="px-0 bg-light">
         <Outlet />
       </Container>
       <FooterComponent />

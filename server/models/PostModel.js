@@ -31,6 +31,11 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    underReview: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
     postName: {
       type: String,
       required: true,
@@ -40,7 +45,7 @@ const PostSchema = new mongoose.Schema(
     postBody: {
       type: String,
       required: true,
-      minLength: 5,
+      minLength: 1,
     },
     comments: [CommentSchema],
   },

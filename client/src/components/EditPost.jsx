@@ -34,7 +34,7 @@ const EditButton = (props) => {
     } else {
       setPostBodyErrMessage("");
     }
-    if (postName.length >= 5 && postBody.length >= 5) {
+    if (postName.length >= 5 && postBody.length >= 1) {
       try {
         setSubmitDisabled(true);
         const newPost = await axios.put(

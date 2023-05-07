@@ -2,22 +2,8 @@ const router = require("express").Router();
 const Topic = require("../models/TopicModel");
 const Post = require("../models/PostModel");
 
-// create topic
-router.post("/", async (req, res) => {
-  const newTopic = new Topic(req.body);
-  if (req.body.role != "admin") {
-    res.status(500).send("You must be admin to create topics");
-  } else {
-    try {
-      const savedTopic = await newTopic.save();
-      res.status(200).json(savedTopic);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
-});
-
 // get all topics
+// does not require authorization
 router.get("/", async (req, res) => {
   const topics = await Topic.find();
   try {
@@ -28,6 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 //get all posts in topics
+// does not require authorization
 router.get("/:id/posts", async (req, res) => {
   const topicPosts = await Post.find({ topicId: req.params.id });
   try {
@@ -38,6 +25,7 @@ router.get("/:id/posts", async (req, res) => {
 });
 
 // get one topic
+// does not require authorization
 router.get("/:id", async (req, res) => {
   const topic = await Topic.findById(req.params.id);
   try {
@@ -47,7 +35,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// create topic
+// requires admin role for authorization
+router.post("/", async (req, res) => {
+  if (req.body.role != "admin") {
+    res.status(500).send("You must be admin to create topics");
+  } else {
+    try {
+      const newTopic = new Topic(req.body);
+      const savedTopic = await newTopic.save();
+      res.status(200).json(savedTopic);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
+});
+
 // edit topic
+// requires admin role for authorization
 router.put("/:id", async (req, res) => {
   const topic = await Topic.findByIdAndUpdate(req.params.id, {
     categoryId: req.body.categoryId,
@@ -68,6 +73,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // delete topic
+// requires admin role for authorization
 router.delete("/:id", async (req, res) => {
   if (req.body.role === "admin") {
     const topic = await Topic.findById(req.params.id);
@@ -83,11 +89,12 @@ router.delete("/:id", async (req, res) => {
 });
 
 //delete all posts in topic
+// requires admin role for authorization
 router.delete("/:id/topics", async (req, res) => {
   if (req.body.role === "admin") {
     try {
       await Post.deleteMany({ topicId: req.params.id });
-      res.status(200).json(topic);
+      res.status(200).json("All posts in topic sucessfully deleated.");
     } catch (err) {
       res.status(500).json(err);
     }

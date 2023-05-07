@@ -1,13 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
-import "./login.css";
+import "./verify.css";
 
-const LoginButton = () => {
+const VerifyButton = () => {
   const { loginWithRedirect, user, isAuthenticated } = useAuth0();
 
-  const RenderLoginButton = () => {
-    if (!user) {
-      return "Log in";
+  const RenderVerifyButton = () => {
+    if (!user.email_verified) {
+      return "Verified Email? Click here to activate";
     }
   };
 
@@ -18,9 +18,9 @@ const LoginButton = () => {
         loginWithRedirect();
       }}
     >
-      <RenderLoginButton />
+      <RenderVerifyButton />
     </div>
   );
 };
 
-export default LoginButton;
+export default VerifyButton;

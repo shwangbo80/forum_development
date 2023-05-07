@@ -12,7 +12,6 @@ import TopicComponent from "./pages/topic/TopicComponent";
 import CreatePost from "./pages/createPost/CreatePost";
 import PostComponent from "./pages/posts/PostComponent";
 import CreateComment from "./pages/createComment/CreateComment";
-import CreateCategory from "./pages/createCategory/CreateCategory";
 import AdminCategories from "./pages/adminCategories/AdminCategories";
 import AdminUnderReview from "./pages/adminUnderReview/AdminUnderReview";
 import CategoriesComponent from "./pages/categories/CategoriesComponent";
@@ -48,10 +47,7 @@ function App() {
           path: "forums/post/:id",
           element: <PostComponent />,
         },
-        {
-          path: "forums/createcategory",
-          element: <CreateCategory />,
-        },
+
         {
           path: "forums/createpost/:id",
           element: <CreatePost />,

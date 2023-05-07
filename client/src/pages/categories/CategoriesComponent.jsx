@@ -61,9 +61,15 @@ function CategoriesComponent() {
       .sort(topicSort)
       .map((item) => {
         return (
-          <Col md={3} key={item._id}>
-            <Link to={`../forums/topic/${item._id}`}>{item.topicName}</Link>
-          </Col>
+          <div>
+            <Link
+              className="topicsLink text-darkBlue"
+              to={`../forums/topic/${item._id}`}
+              key={item._id}
+            >
+              {item.topicName}
+            </Link>
+          </div>
         );
       });
   };
@@ -73,27 +79,26 @@ function CategoriesComponent() {
       return;
     }
     return (
-      <div>
+      <Row>
         {categoriesData.sort(categorySort).map((item) => {
           return (
-            <div key={item._id}>
+            <Col md={4} key={item._id}>
               <hr></hr>
               <div className="pb-3">
-                <div className="d-flex">
-                  <p className="text-dark fw-bold mb-0 me-2">
+                <div className="">
+                  <p className="mb-0 fw-bold text-darkBlue">
                     {item.categoryName}
                   </p>
-                  <p className="fw-light">/</p>
-                  <p className="text-dark fw-light ms-2">
+                  <p className="text-dark fw-light">
                     {item.categoryDescription}
                   </p>
                 </div>
                 <Row>{renderCategoryTopics(item._id)}</Row>
               </div>
-            </div>
+            </Col>
           );
         })}
-      </div>
+      </Row>
     );
   };
 

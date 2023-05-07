@@ -10,17 +10,19 @@ import {
 } from "react-bootstrap";
 import "./header.css";
 import "../../components/navbar/NavbarComponent";
+import Profile from "../profile/Profile";
 
 function Header() {
   return (
     <Container className="px-5 py-3 headerBg">
       <Row>
-        <Col md={3}>
-          <a href="/">
-            <p className="me-4 headerText">NamuWeb</p>
-          </a>
+        <Col>
+          <p className="me-4 headerText">
+            <a href="/" className="text-dark">
+              Community Forum{" "}
+            </a>
+          </p>
         </Col>
-        <Col md={3}></Col>
         <Col>
           {/* <InputGroup className="mb-3 searchForm">
             <Form.Control
@@ -32,6 +34,7 @@ function Header() {
               Search
             </Button>
           </InputGroup> */}
+          <Profile />
         </Col>
       </Row>
     </Container>
