@@ -42,8 +42,6 @@ function CategoriesComponent() {
     setcategoryLoaded(true);
   };
 
-  //   console.log(categoriesData);
-
   const fetchCategoryTopics = async () => {
     const categoryTopics = await axios.get(
       `${process.env.REACT_APP_SERVER_URL}api/topic`
@@ -61,7 +59,7 @@ function CategoriesComponent() {
       .sort(topicSort)
       .map((item) => {
         return (
-          <div>
+          <div className="mt-2">
             <Link
               className="topicsLink text-darkBlue"
               to={`../forums/topic/${item._id}`}

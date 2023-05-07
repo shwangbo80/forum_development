@@ -36,6 +36,11 @@ const PostSchema = new mongoose.Schema(
       default: false,
       required: true,
     },
+    featured: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
     postName: {
       type: String,
       required: true,
